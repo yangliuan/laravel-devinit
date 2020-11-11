@@ -1,0 +1,27 @@
+{
+    "name": "yangliuan/laravel-devinit",
+    "description": "laravel develop init script",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "yangliuan",
+            "email": "yangliuancn@foxmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "laravel/framework": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yangliuan\\LaravelDevinit\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yangliuan\\LaravelDevinit\\DevinitServiceProvider"
+            ]
+        }
+    }
+}
