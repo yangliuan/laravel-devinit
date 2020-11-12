@@ -14,7 +14,7 @@
 ## Installing
 
 ```shell
-$ composer require yangliuan/laradevtools -vvv
+$ composer require yangliuan/laravel-devinit
 
 $ php artisan devtools:install
 ```
