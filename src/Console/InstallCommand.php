@@ -44,12 +44,14 @@ class InstallCommand extends Command
 
         $this->info('start install fruitcake/laravel-telescope-toolbar...');
         system('composer require fruitcake/laravel-telescope-toolbar --dev');
-        $this->call('vendor:publish', ['--provider' => "Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"]);
+        system('php artisan vendor:publish --provider="Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"');
         $this->info('install fruitcake/laravel-telescope-toolbar successed!');
 
         $this->info('start install tucker-eric/eloquentfilter');
         system('composer require tucker-eric/eloquentfilter');
         $this->info('install tucker-eric/eloquentfilter successed!');
+
         $this->call('devinit:publish', ['--force' => 'force']);
+        $this->call('devstub:publish', ['--force' => 'force']);
     }
 }

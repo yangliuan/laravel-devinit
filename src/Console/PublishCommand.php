@@ -83,7 +83,5 @@ class PublishCommand extends Command
         ]);
 
         $this->call('migrate');
-
-        $this->call('devstub:publish', ['--force' => $this->option('force')]);
     }
 }
