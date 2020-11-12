@@ -9,14 +9,14 @@
 - laravel-telescope
 - laravel-telescope-toolbar
 
-，并覆盖原有框架部分原有代码生成控制器和模型完成开发初始化工做
+，并覆盖原有框架部分原有代码生成控制器和模型完成开发初始化工作
 
 ## Installing
 
 ```shell
 $ composer require yangliuan/laravel-devinit
 
-$ php artisan devtools:install
+$ php artisan devinit:install
 ```
 
 
