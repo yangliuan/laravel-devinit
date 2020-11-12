@@ -50,7 +50,6 @@ class InstallCommand extends Command
         $this->info('start install tucker-eric/eloquentfilter');
         system('composer require tucker-eric/eloquentfilter');
         $this->info('install tucker-eric/eloquentfilter successed!');
-        $this->call('vendor:publish', ['--provider' => "EloquentFilter\ServiceProvider"]);
         $this->call('devinit:publish', ['--force' => 'force']);
     }
 }

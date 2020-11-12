@@ -15,7 +15,8 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ]);
 
             $this->publishes([
-                __DIR__ . '/../config/auth.php' => config_path('auth.php')
+                __DIR__ . '/../config/auth.php' => config_path('auth.php'),
+                __DIR__ . '/../eloquentfilter.php' => config_path('eloquentfilter.php')
             ], 'devinit-config');
 
             $this->publishes([
