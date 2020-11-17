@@ -51,6 +51,15 @@ class InstallCommand extends Command
         system('composer require tucker-eric/eloquentfilter');
         $this->info('install tucker-eric/eloquentfilter successed!');
 
+        $this->info('start install overtrue/laravel-lang');
+        system('composer require overtrue/laravel-lang');
+        system('php artisan lang:publish zh_CN');
+        $this->info('install overtrue/laravel-lang successed!');
+
+        $this->info('start install overtrue/laravel-lang');
+        system('composer require overtrue/laravel-lang');
+        $this->info('install overtrue/laravel-lang successed!');
+
         $this->call('devinit:publish', ['--force' => 'force']);
         $this->call('devstub:publish', ['--force' => 'force']);
     }

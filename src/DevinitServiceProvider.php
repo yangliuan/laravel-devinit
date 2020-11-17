@@ -6,7 +6,8 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
+        if ($this->app->runningInConsole())
+        {
 
             $this->commands([
                 Console\InstallCommand::class,
@@ -64,10 +65,10 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-request');
 
             $this->publishes([
-                __DIR__ . '/stubs/app/Resources/Resource.stub' => app_path('Resources/Resource.php'),
-                __DIR__ . '/stubs/app/Resources/AdminGroupResource.stub' => app_path('Resources/AdminGroupResource.php'),
-                __DIR__ . '/stubs/app/Resources/AdminResource.stub' => app_path('Resources/AdminResource.php'),
-                __DIR__ . '/stubs/app/Resources/AdminSyslogResource.stub' => app_path('Resources/AdminSyslogResource.php'),
+                __DIR__ . '/stubs/app/Resources/Resource.stub' => app_path('Http/Resources/Resource.php'),
+                __DIR__ . '/stubs/app/Resources/AdminGroupResource.stub' => app_path('Http/Resources/AdminGroupResource.php'),
+                __DIR__ . '/stubs/app/Resources/AdminResource.stub' => app_path('Http/Resources/AdminResource.php'),
+                __DIR__ . '/stubs/app/Resources/AdminSyslogResource.stub' => app_path('Http/Resources/AdminSyslogResource.php'),
             ], 'devinit-app-resources');
 
             $this->publishes([
