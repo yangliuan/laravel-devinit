@@ -35,6 +35,8 @@ class InstallCommand extends Command
 
         $this->info('start install barryvdh/laravel-ide-helper...');
         system('composer require barryvdh/laravel-ide-helper --dev');
+        system('php artisan ide-helper:generate');
+        system('php artisan vendor:publish --provider="Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider" --tag=config');
         $this->info('install barryvdh/laravel-ide-helper successed!');
 
         $this->info('start install laravel/telescope...');
@@ -54,10 +56,6 @@ class InstallCommand extends Command
         $this->info('start install overtrue/laravel-lang');
         system('composer require overtrue/laravel-lang');
         system('php artisan lang:publish zh_CN');
-        $this->info('install overtrue/laravel-lang successed!');
-
-        $this->info('start install overtrue/laravel-lang');
-        system('composer require overtrue/laravel-lang');
         $this->info('install overtrue/laravel-lang successed!');
 
         $this->call('devinit:publish', ['--force' => 'force']);
