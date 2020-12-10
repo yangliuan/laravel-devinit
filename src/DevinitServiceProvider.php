@@ -11,9 +11,14 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
 
             $this->commands([
                 Console\InstallCommand::class,
+                Console\ResetCommand::class,
                 Console\PublishCommand::class,
                 Console\StubPublishCommand::class,
             ]);
+
+            $this->publishes([
+                __DIR__ . '/../config/app.php' => config_path('app.php'),
+            ], 'app-config');
 
             $this->publishes([
                 __DIR__ . '/../config/auth.php' => config_path('auth.php'),

@@ -12,7 +12,7 @@ class StubPublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'devstub:publish {--force : Overwrite any existing files}';
+    protected $signature = 'dev:publish {--force : Overwrite any existing files}';
 
     /**
      * The console command description.
@@ -28,7 +28,8 @@ class StubPublishCommand extends Command
      */
     public function handle()
     {
-        if (!is_dir($stubsPath = $this->laravel->basePath('stubs'))) {
+        if (!is_dir($stubsPath = $this->laravel->basePath('stubs')))
+        {
             (new Filesystem)->makeDirectory($stubsPath);
         }
 
@@ -62,8 +63,10 @@ class StubPublishCommand extends Command
             __DIR__ . '/../devstubs/middleware.stub' => $stubsPath . '/middleware.stub',
         ];
 
-        foreach ($files as $from => $to) {
-            if (!file_exists($to) || $this->option('force')) {
+        foreach ($files as $from => $to)
+        {
+            if (!file_exists($to) || $this->option('force'))
+            {
                 file_put_contents($to, file_get_contents($from));
             }
         }

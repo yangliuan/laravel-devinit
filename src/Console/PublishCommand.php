@@ -11,7 +11,7 @@ class PublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'devinit:publish {--force : Overwrite any existing files}';
+    protected $signature = 'dev:publish {--force : Overwrite any existing files}';
 
     /**
      * The console command description.
