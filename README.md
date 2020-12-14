@@ -21,7 +21,9 @@
 ```shell
 $ composer require yangliuan/laravel-devinit --dev
 
-$ php artisan devinit:install
+$ php artisan dev:init
+
+$ php artisan dev:reset
 ```
 
 
