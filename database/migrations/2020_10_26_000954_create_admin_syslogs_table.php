@@ -14,7 +14,8 @@ class CreateAdminSyslogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admin_syslogs', function (Blueprint $table) {
+        Schema::create('admin_syslogs', function (Blueprint $table)
+        {
             $table->id();
             $table->integer('admin_id')->default('0')->comment('管理员id')->index('admin_id');
             $table->string('log', 255)->default('')->comment('操作内容');

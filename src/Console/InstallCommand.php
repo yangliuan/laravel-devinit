@@ -30,7 +30,7 @@ class InstallCommand extends Command
     {
         $this->call('vendor:publish', [
             '--tag' => 'app-config',
-            '--force' => $this->option('force'),
+            '--force' => 'force',
         ]);
         $this->call('migrate');
 
@@ -49,9 +49,7 @@ class InstallCommand extends Command
         system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
         $this->info('install tucker-eric/eloquentfilter successed!');
 
-        $do = $this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0);
-
-        if ($do === 'yes')
+        if ($this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0) === 'yes')
         {
             $this->info('start install barryvdh/laravel-ide-helper...');
             system('composer require barryvdh/laravel-ide-helper --dev');
@@ -60,9 +58,7 @@ class InstallCommand extends Command
             $this->info('install barryvdh/laravel-ide-helper successed!');
         }
 
-        $do = $this->choice('Do you want to install laravel/telescope?', ['yes', 'no'], 0);
-
-        if ($do === 'yes')
+        if ($this->choice('Do you want to install laravel/telescope?', ['yes', 'no'], 0) === 'yes')
         {
             $this->info('start install laravel/telescope...');
             system('composer require laravel/telescope --dev');
@@ -71,9 +67,7 @@ class InstallCommand extends Command
             $this->info('install laravel/telescope successed!');
         }
 
-        $do = $this->choice('Do you want to install fruitcake/laravel-telescope-toolbar?', ['yes', 'no'], 0);
-
-        if ($do === 'yes')
+        if ($this->choice('Do you want to install fruitcake/laravel-telescope-toolbar?', ['yes', 'no'], 0) === 'yes')
         {
             $this->info('start install fruitcake/laravel-telescope-toolbar...');
             system('composer require fruitcake/laravel-telescope-toolbar --dev');
@@ -81,7 +75,6 @@ class InstallCommand extends Command
             $this->info('install fruitcake/laravel-telescope-toolbar successed!');
         }
 
-        $this->call('devinit:publish', ['--force' => 'force']);
-        $this->call('devstub:publish', ['--force' => 'force']);
+        $this->call('dev:publish', ['--force' => 'force']);
     }
 }

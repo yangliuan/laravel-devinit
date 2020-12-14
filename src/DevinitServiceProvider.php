@@ -13,7 +13,6 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 Console\InstallCommand::class,
                 Console\ResetCommand::class,
                 Console\PublishCommand::class,
-                Console\StubPublishCommand::class,
             ]);
 
             $this->publishes([
@@ -34,50 +33,52 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-resources');
 
             $this->publishes([
-                __DIR__ . '/stubs/routes/admin.stub' => base_path('routes/admin.php'),
-                __DIR__ . '/stubs/routes/web.stub' => base_path('routes/web.php'),
+                __DIR__ . '/../routes/common.php' => base_path('routes/common.php'),
+                __DIR__ . '/../routes/admin.php' => base_path('routes/admin.php'),
+                __DIR__ . '/../routes/web.php' => base_path('routes/web.php'),
             ], 'devinit-routes');
 
             $this->publishes([
-                __DIR__ . '/stubs/app/Providers/AppServiceProvider.stub' => app_path('Providers/AppServiceProvider.php'),
-                __DIR__ . '/stubs/app/Providers/AuthServiceProvider.stub' => app_path('Providers/AuthServiceProvider.php'),
-                __DIR__ . '/stubs/app/Providers/RouteServiceProvider.stub' => app_path('Providers/RouteServiceProvider.php'),
+                __DIR__ . '/../app/Providers/AppServiceProvider.php' => app_path('Providers/AppServiceProvider.php'),
+                __DIR__ . '/../app/Providers/AuthServiceProvider.php' => app_path('Providers/AuthServiceProvider.php'),
+                __DIR__ . '/../app/Providers/RouteServiceProvider.php' => app_path('Providers/RouteServiceProvider.php'),
             ], 'devinit-providers');
 
             $this->publishes([
-                __DIR__ . '/stubs/app/Middleware/AdminRBAC.stub' => app_path('Http/Middleware/AdminRBAC.php'),
-                __DIR__ . '/stubs/app/Middleware/Kernel.stub' => app_path('Http/Kernel.php'),
+                __DIR__ . '/../app/Http/Middleware/AdminRBAC.php' => app_path('Http/Middleware/AdminRBAC.php'),
+                __DIR__ . '/../app/Http/Kernel.php' => app_path('Http/Kernel.php'),
             ], 'devinit-middlewares');
 
             $this->publishes([
-                __DIR__ . '/stubs/app/Models/BaseModel.stub' => app_path('Models/BaseModel.php'),
-                __DIR__ . '/stubs/app/Models/Admin.stub' => app_path('Models/Admin.php'),
-                __DIR__ . '/stubs/app/Models/AdminGroups.stub' => app_path('Models/AdminGroups.php'),
-                __DIR__ . '/stubs/app/Models/AdminRules.stub' => app_path('Models/AdminRules.php'),
-                __DIR__ . '/stubs/app/Models/AdminSyslog.stub' => app_path('Models/AdminSyslog.php'),
-                __DIR__ . '/stubs/app/Models/User.stub' => app_path('Models/User.php'),
+                __DIR__ . '/../app/Models/BaseModel.php' => app_path('Models/BaseModel.php..'),
+                __DIR__ . '/../app/Models/Admin.php' => app_path('Models/Admin.php'),
+                __DIR__ . '/../app/Models/AdminGroups.php' => app_path('Models/AdminGroups.php'),
+                __DIR__ . '/../app/Models/AdminRules.php' => app_path('Models/AdminRules.php'),
+                __DIR__ . '/../app/Models/AdminSyslog.php' => app_path('Models/AdminSyslog.php'),
+                __DIR__ . '/../app/Models/User.php' => app_path('Models/User.php'),
             ], 'devinit-models');
 
             $this->publishes([
-                __DIR__ . '/stubs/app/Controllers/AdminController.stub' => app_path('Http/Controllers/Admin/AdminController.php'),
-                __DIR__ . '/stubs/app/Controllers/GroupController.stub' => app_path('Http/Controllers/Admin/GroupController.php'),
-                __DIR__ . '/stubs/app/Controllers/PageController.stub' => app_path('Http/Controllers/PageController.php'),
+                __DIR__ . '/../app/Http/Controllers/AdminController.php' => app_path('Http/Controllers/Admin/AdminController.php'),
+                __DIR__ . '/../app/Http/Controllers/GroupController.php' => app_path('Http/Controllers/Admin/GroupController.php'),
+                __DIR__ . '/../app/Http/Controllers/PageController.php' => app_path('Http/Controllers/PageController.php'),
             ], 'devinit-controllers');
 
             $this->publishes([
-                __DIR__ . '/stubs/app/Request/Request.stub' => app_path('Http/Requests/Request.php'),
-                __DIR__ . '/stubs/app/Request/Admin/AdminRequest.stub' => app_path('Http/Requests/Admin/AdminRequest.php'),
+                __DIR__ . '/../app/Http/Request/ApiRequest.php' => app_path('Http/Requests/ApiRequest.php'),
+                __DIR__ . '/../app/Http/Request/Admin/AdminRequest.php' => app_path('Http/Requests/Admin/AdminRequest.php'),
             ], 'devinit-request');
 
             $this->publishes([
-                __DIR__ . '/stubs/app/Resources/Resource.stub' => app_path('Http/Resources/Resource.php'),
-                __DIR__ . '/stubs/app/Resources/AdminGroupResource.stub' => app_path('Http/Resources/AdminGroupResource.php'),
-                __DIR__ . '/stubs/app/Resources/AdminResource.stub' => app_path('Http/Resources/AdminResource.php'),
-                __DIR__ . '/stubs/app/Resources/AdminSyslogResource.stub' => app_path('Http/Resources/AdminSyslogResource.php'),
+                __DIR__ . '/../app/Http/Resources/Resource.php' => app_path('Http/Resources/Resource.php'),
+                __DIR__ . '/../app/Http/Resources/AdminGroupResource.php' => app_path('Http/Resources/AdminGroupResource.php'),
+                __DIR__ . '/../app/Http/Resources/AdminResource.php' => app_path('Http/Resources/AdminResource.php'),
+                __DIR__ . '/../app/Http/Resources/AdminSyslogResource.php' => app_path('Http/Resources/AdminSyslogResource.php'),
             ], 'devinit-app-resources');
 
             $this->publishes([
-                __DIR__ . '/stubs/app/Traits/DateFormat.stub' => app_path('Traits/DateFormat.php'),
+                __DIR__ . '/../app/Traits/DateFormat.php' => app_path('Traits/DateFormat.php'),
+                __DIR__ . '/../app/Traits/Helps.php' => app_path('Traits/Helps.php'),
             ], 'devinit-traits');
         }
     }
