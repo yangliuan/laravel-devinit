@@ -50,7 +50,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-middlewares');
 
             $this->publishes([
-                __DIR__ . '/../app/Models/BaseModel.php' => app_path('Models/BaseModel.php..'),
+                __DIR__ . '/../app/Models/BaseModel.php' => app_path('Models/BaseModel.php'),
                 __DIR__ . '/../app/Models/Admin.php' => app_path('Models/Admin.php'),
                 __DIR__ . '/../app/Models/AdminGroups.php' => app_path('Models/AdminGroups.php'),
                 __DIR__ . '/../app/Models/AdminRules.php' => app_path('Models/AdminRules.php'),
