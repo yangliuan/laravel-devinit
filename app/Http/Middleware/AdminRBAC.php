@@ -15,15 +15,19 @@ class AdminRBAC
 
     public function handle(Request $request, Closure $next)
     {
-        foreach (self::EXCEPT_ROUTE as $value) {
-            if ($request->is($value)) {
+        //跳过指定路由
+        foreach (self::EXCEPT_ROUTE as $value)
+        {
+            if ($request->is($value))
+            {
                 return $next($request);
             }
         }
 
         $admin = $request->user('admin');
 
-        if ($admin->status == 0) {
+        if ($admin->status == 0)
+        {
             return response()->json(['message' => 'Disabled'], 401);
         }
 
@@ -34,23 +38,33 @@ class AdminRBAC
             ->where('api_behavior', $restfulPath)
             ->first();
 
-        //系统管理员
-        if ($admin->id == 1) {
-            return $next($request);
-        }
-
-        //不验证权限
-        if ($rules->status == 0) {
+        //不存在
+        if (!$rules instanceof AdminRules)
+        {
             return $next($request);
         }
 
         //开启日志
-        if ($rules->is_log == 1) {
+        if ($rules->is_log == 1)
+        {
             $request->m_api_behavior_rules = $rules;
         }
 
+        //系统管理员
+        if ($admin->id == 1)
+        {
+            return $next($request);
+        }
+
+        //不验证权限
+        if ($rules->status == 0)
+        {
+            return $next($request);
+        }
+
         //没有权限
-        if (!$admin->group()->where('admin_groups.rules_id', $rules->id)->count()) {
+        if (!$admin->group()->where('admin_groups.rules_id', $rules->id)->count())
+        {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
@@ -61,13 +75,19 @@ class AdminRBAC
     {
         $pathInfo = pathinfo($path);
 
-        if (isset($pathInfo['basename']) && !empty($pathInfo['basename'])) {
-            if (is_numeric($pathInfo['basename'])) {
+        if (isset($pathInfo['basename']) && !empty($pathInfo['basename']))
+        {
+            if (is_numeric($pathInfo['basename']))
+            {
                 $rulePath = $pathInfo['dirname'] . '/';
-            } else {
+            }
+            else
+            {
                 $rulePath = $pathInfo['dirname'] . '/' . $pathInfo['basename'];
             }
-        } else {
+        }
+        else
+        {
             $rulePath = $path;
         }
 
@@ -79,14 +99,16 @@ class AdminRBAC
         $this->recordBehavior($request, $response);
     }
 
+    //记录日志
     protected function recordBehavior($request, $response)
     {
-        if (in_array($response->getStatusCode(), [500, 401, 403, 404, 429, 422, 301, 302])) {
+        if (in_array($response->getStatusCode(), [500, 401, 403, 404, 429, 422, 301, 302]))
+        {
             return;
         }
 
-        //不记录日志
-        if (!$request->m_api_behavior_rules instanceof Rules) {
+        if (!$request->m_api_behavior_rules instanceof AdminRules)
+        {
             return;
         }
 

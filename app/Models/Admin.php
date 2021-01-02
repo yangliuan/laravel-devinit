@@ -52,8 +52,10 @@ class Admin extends Authenticatable
     {
         $request = request();
         parent::boot();
-        static::saving(function ($admin) use ($request) {
-            if (Hash::needsRehash($admin->password)) {
+        static::saving(function ($admin) use ($request)
+        {
+            if (Hash::needsRehash($admin->password))
+            {
                 $admin->password = \bcrypt($admin->password);
             }
         });

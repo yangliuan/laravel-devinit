@@ -8,18 +8,28 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\AdminGroups;
 use App\Models\AdminRules;
-use App\Http\Resources\AdminGroupResource;
 
 class GroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:admin', 'scope:admin']);
+    }
+
     public function index(Request $request)
     {
-        return new AdminGroupResource(AdminGroups::latest()->paginate($request->input('per_page', 20)));
+        $adminGroups = AdminGroups::select()
+            ->latest()
+            ->paginate($request->input('per_page', 20));
+
+        return $adminGroups;
     }
 
     public function show(Request $request, $id)
     {
-        return new AdminGroupResource(AdminGroups::findOrFail($id));
+        $adminGroup = AdminGroups::findOrFail($id);
+
+        return response()->json($adminGroup);
     }
 
     public function store(Request $request)
@@ -31,7 +41,9 @@ class GroupController extends Controller
             'title.unique' => '管理组名称已存在'
         ]);
 
-        return new AdminGroupResource(AdminGroups::create($request->all()));
+        $adminGroup = AdminGroups::create($request->all());
+
+        return response()->json(['id' => $adminGroup->id]);
     }
 
     public function update(Request $request, $id)
@@ -49,13 +61,14 @@ class GroupController extends Controller
         $admin = AdminGroups::findOrFail($id);
         $admin->update($request->only(['title', 'desc']));
 
-        return new AdminGroupResource($admin);
+        return response()->json();
     }
 
     public function destroy(Request $request, $id)
     {
         $admin = AdminGroups::findOrFail($id);
         $admin->delete();
+        DB::table('admin_group_rules')->where('group_id', $id)->delete();
 
         return response()->json();
     }
@@ -65,7 +78,7 @@ class GroupController extends Controller
         return response()->json($adminRule->toTree());
     }
 
-    public function setting(Request $request, $id, AdminRules $adminRule)
+    public function setting(Request $request, $id)
     {
         return response()->json(DB::table('admin_group_rules')->where('group_id', $id)->pluck('rule_id'));
     }

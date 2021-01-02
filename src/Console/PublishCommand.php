@@ -82,6 +82,11 @@ class PublishCommand extends Command
             '--force' => $this->option('force'),
         ]);
 
+        $this->call('vendor:publish', [
+            '--tag' => 'devinit-cmd',
+            '--force' => $this->option('force'),
+        ]);
+
         $this->call('migrate');
     }
 }

@@ -15,22 +15,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login', 'AdminController@login'); //登录
+Route::post('logout', 'AdminController@logout'); //登出
+Route::get('syslogs', 'AdminController@syslogs'); //系统日志
 
-Route::group(['middleware' => ['auth:admin', 'scope:admin']], function () {
-    Route::post('logout', 'AdminController@logout'); //登出
-
-    Route::group(['prefix' => 'admin'], function () {
-        Route::match(['put', 'patch'], 'status/{id}', 'AdminController@status'); //启用/禁用
-    });
-
-    Route::group(['prefix' => 'group'], function () {
-        Route::get('rules', 'GroupController@rules'); //所有权限
-        Route::get('setting/{id}', 'GroupController@setting'); //获取组所有权限
-        Route::match(['put', 'patch'], 'set/{id}', 'GroupController@set'); //所有权限
-    });
-
-    Route::apiResources([
-        'admin' => 'AdminController',
-        'group' => 'GroupController',
-    ]);
+Route::group(['prefix' => 'admin'], function ()
+{
+    Route::match(['put', 'patch'], 'status/{id}', 'AdminController@status'); //启用/禁用
 });
+
+Route::group(['prefix' => 'group'], function ()
+{
+    Route::get('rules', 'GroupController@rules'); //所有权限
+    Route::get('setting/{id}', 'GroupController@setting'); //获取组所有权限
+    Route::match(['put', 'patch'], 'set/{id}', 'GroupController@set'); //设置组的权限
+});
+
+Route::apiResources([
+    'admin' => 'AdminController',
+    'group' => 'GroupController',
+]);

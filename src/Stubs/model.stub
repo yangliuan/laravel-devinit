@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Models;
+
+class {{Model}} extends BaseModel
+{   
+    protected $table = '{{model}}';
+
+    protected $fillable = [{{fillable}}];
+
+    protected $dates = [];
+
+    protected $casts = [];
+
+    protected $appends = [];
+
+    protected $hidden = [];
+}

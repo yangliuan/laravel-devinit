@@ -13,6 +13,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 Console\InstallCommand::class,
                 Console\ResetCommand::class,
                 Console\PublishCommand::class,
+                Console\DevMakeCommand::class,
             ]);
 
             $this->publishes([
@@ -80,6 +81,12 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 __DIR__ . '/../app/Traits/DateFormat.php' => app_path('Traits/DateFormat.php'),
                 __DIR__ . '/../app/Traits/Helps.php' => app_path('Traits/Helps.php'),
             ], 'devinit-traits');
+
+            $this->publishes([
+                __DIR__ . '/../app/Console/Commands/RefreshAdminRulesCmd.php' => app_path('Console/Commands/RefreshAdminRulesCmd.php'),
+                __DIR__ . '/../app/Console/Commands/ScheduleLogCmd.php' => app_path('Console/Commands/ScheduleLogCmd.php'),
+                __DIR__ . '/../app/Console/Kernel.php' => app_path('Console/Kernel.php'),
+            ], 'devinit-cmd');
         }
     }
 }

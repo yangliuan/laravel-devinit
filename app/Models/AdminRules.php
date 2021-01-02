@@ -36,15 +36,19 @@ class AdminRules extends BaseModel
     {
         $branch = [];
 
-        if (empty($rules)) {
+        if (empty($rules))
+        {
             $rules = static::all()->toArray();
         }
 
-        foreach ($rules as $rule) {
-            if ($rule[$this->parentColumn] == $parentId) {
+        foreach ($rules as $rule)
+        {
+            if ($rule[$this->parentColumn] == $parentId)
+            {
                 $children = $this->toTree($rules, $rule[$this->getKeyName()]);
 
-                if ($children) {
+                if ($children)
+                {
                     $rule['children'] = $children;
                 }
 

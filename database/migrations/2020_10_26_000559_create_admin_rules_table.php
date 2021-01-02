@@ -24,8 +24,8 @@ class CreateAdminRulesTable extends Migration
             $table->string('params', 255)->default('')->comment('参数');
             $table->tinyInteger('gui_type', false, true)->default('1')->comment('图形界面类型:1主菜单2子菜单3事件');
             $table->string('gui_behavior', 255)->default('')->comment('图形界面行为');
-            $table->tinyInteger('status', false, true)->default('0')->comment('状态:0禁用1启用');
-            $table->tinyInteger('is_log', false, true)->default('0')->comment('是否记录日志:0禁用1启用');
+            $table->tinyInteger('status', false, true)->default('1')->comment('权限验证:0禁用1启用');
+            $table->tinyInteger('is_log', false, true)->default('1')->comment('记录日志:0禁用1启用');
             $table->integer('sort', false, true)->default('0')->comment('排序值');
             $table->timestamps();
             $table->index('pid');

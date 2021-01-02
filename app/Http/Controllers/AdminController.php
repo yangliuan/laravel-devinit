@@ -6,14 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\AdminRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use App\Models\Admin;
 use App\Models\AdminGroups;
 use App\Models\AdminRules;
-use App\Http\Resources\AdminResource;
+use App\Models\AdminSyslog;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:admin', 'scope:admin'])->except('login');
+    }
+
     public function login(Request $request, AdminRules $adminRule)
     {
         $request->validate([
@@ -55,15 +59,14 @@ class AdminController extends Controller
 
     public function logout(Request $request)
     {
-        $admin = auth('admin')->user();
-        DB::table('oauth_access_tokens')->where('user_id', $admin->id)->where('name', 'admin')->delete();
+        $request->user('admin')->tokens()->delete();
 
         return response()->json();
     }
 
     public function index(Request $request)
     {
-        $data = Admin::where('id', '<>', 1)
+        $admins = Admin::where('id', '<>', 1)
             ->with(['group' => function ($query)
             {
                 $query->select('id', 'title');
@@ -71,7 +74,7 @@ class AdminController extends Controller
             ->latest()
             ->paginate($request->input('per_page', 20));
 
-        return new AdminResource($data);
+        return $admins;
     }
 
     public function show(Request $request, $id)
@@ -88,7 +91,7 @@ class AdminController extends Controller
             }])
             ->findOrFail($id);
 
-        return new AdminResource($admin);
+        return response()->json($admin);
     }
 
     public function store(AdminRequest $request)
@@ -97,20 +100,24 @@ class AdminController extends Controller
         {
             return !is_null($value);
         });
+        $admin = Admin::create($data);
 
-        return new AdminResource(Admin::create($data));
+        return response()->json(['id' => $admin->id]);
     }
 
     public function update(AdminRequest $request, $id)
     {
+        $data = array_filter(
+            $request->only(['name', 'password', 'mobile', 'group_id', 'status']),
+            function ($value)
+            {
+                return !is_null($value);
+            }
+        );
         $admin = Admin::findOrFail($id);
-        $data = array_filter($request->only(['name', 'password', 'mobile', 'group_id', 'status']), function ($value)
-        {
-            return !is_null($value);
-        });
         $admin->update($data);
 
-        return new AdminResource($admin);
+        return response()->json();
     }
 
     public function destroy(Request $request, $id)
@@ -137,6 +144,25 @@ class AdminController extends Controller
         $admin->status = abs(1 - $admin->status);
         $admin->save();
 
-        return response()->json(['id' => $admin->id, 'status' => $admin->status]);
+        return response()->json();
+    }
+
+    public function syslogs(Request $request)
+    {
+        $syslogs = AdminSyslog::select()
+            ->with([
+                'admin' => function ($query)
+                {
+                    $query->select('id', 'name', 'account');
+                }
+            ])
+            ->when($request->user('admin')->id > 1, function ($query) use ($request)
+            {
+                $query->where('admin_id', $request->user('admin')->id);
+            })
+            ->latest()
+            ->paginate($request->input('per_page', 20));
+
+        return $syslogs;
     }
 }
