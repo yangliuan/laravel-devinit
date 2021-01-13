@@ -13,3 +13,5 @@ use Illuminate\Support\Facades\Route;
 | contains the "Common" middleware group. Now create something great!
 |
 */
+
+Route::post('sendsms', 'NotifyController@sendSms'); //发短信

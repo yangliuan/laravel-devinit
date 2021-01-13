@@ -3,6 +3,7 @@
 namespace Yangliuan\LaravelDevinit\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class InstallCommand extends Command
 {
@@ -28,15 +29,10 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->call('vendor:publish', [
-            '--tag' => 'app-config',
-            '--force' => 'force',
-        ]);
-        $this->call('migrate');
-
         $this->info('start install laravel/passport...');
         system('composer require laravel/passport');
-        system('php artisan passport:install --uuids');
+        system('php artisan migrate');
+        system('php artisan passport:install --uuid');
         $this->info('install laravel/passport successed!');
 
         $this->info('start install overtrue/laravel-lang');
@@ -49,10 +45,13 @@ class InstallCommand extends Command
         system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
         $this->info('install tucker-eric/eloquentfilter successed!');
 
+        system('php artisan dev:publish --force');
+
         if ($this->choice('Do you want to install composer require laravel/horizon?', ['yes', 'no'], 0) === 'yes')
         {
             system('composer require laravel/horizon');
             system('php artisan horizon:install');
+            system('php artisan migrate');
         }
 
         if ($this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0) === 'yes')
@@ -69,7 +68,7 @@ class InstallCommand extends Command
             $this->info('start install laravel/telescope...');
             system('composer require laravel/telescope --dev');
             system('php artisan telescope:install');
-            $this->call('migrate');
+            system('php artisan migrate');
             $this->info('install laravel/telescope successed!');
         }
 
@@ -81,6 +80,6 @@ class InstallCommand extends Command
             $this->info('install fruitcake/laravel-telescope-toolbar successed!');
         }
 
-        $this->call('dev:publish', ['--force' => 'force']);
+        system('php artisan dev:reset');
     }
 }

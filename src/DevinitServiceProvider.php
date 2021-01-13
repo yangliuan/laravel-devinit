@@ -60,21 +60,20 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-models');
 
             $this->publishes([
+                __DIR__ . '/../app/Http/Controllers/AuthController.php' => app_path('Http/Controllers/Api/AuthController.php'),
                 __DIR__ . '/../app/Http/Controllers/AdminController.php' => app_path('Http/Controllers/Admin/AdminController.php'),
                 __DIR__ . '/../app/Http/Controllers/GroupController.php' => app_path('Http/Controllers/Admin/GroupController.php'),
                 __DIR__ . '/../app/Http/Controllers/PageController.php' => app_path('Http/Controllers/PageController.php'),
             ], 'devinit-controllers');
 
             $this->publishes([
+                __DIR__ . '/../app/Http/Request/RegisterOrLoginRequest.php' => app_path('Http/Requests/RegisterOrLoginRequest.php'),
                 __DIR__ . '/../app/Http/Request/ApiRequest.php' => app_path('Http/Requests/ApiRequest.php'),
                 __DIR__ . '/../app/Http/Request/Admin/AdminRequest.php' => app_path('Http/Requests/Admin/AdminRequest.php'),
             ], 'devinit-request');
 
             $this->publishes([
                 __DIR__ . '/../app/Http/Resources/Resource.php' => app_path('Http/Resources/Resource.php'),
-                __DIR__ . '/../app/Http/Resources/AdminGroupResource.php' => app_path('Http/Resources/AdminGroupResource.php'),
-                __DIR__ . '/../app/Http/Resources/AdminResource.php' => app_path('Http/Resources/AdminResource.php'),
-                __DIR__ . '/../app/Http/Resources/AdminSyslogResource.php' => app_path('Http/Resources/AdminSyslogResource.php'),
             ], 'devinit-app-resources');
 
             $this->publishes([
@@ -87,6 +86,11 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 __DIR__ . '/../app/Console/Commands/ScheduleLogCmd.php' => app_path('Console/Commands/ScheduleLogCmd.php'),
                 __DIR__ . '/../app/Console/Kernel.php' => app_path('Console/Kernel.php'),
             ], 'devinit-cmd');
+
+            $this->publishes([
+                __DIR__ . '/../app/Services/VerificationCode.php' => app_path('Services/VerificationCode.php'),
+                __DIR__ . '/../app/Http/Controllers/NotifyController.php' => app_path('Http/Controllers/Common/NotifyController.php'),
+            ], 'devinit-sms');
         }
     }
 }
