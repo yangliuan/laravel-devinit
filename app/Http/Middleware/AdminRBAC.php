@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\AdminRules;
+use App\Models\AdminGroups;
 use App\Models\AdminSyslog;
 
 class AdminRBAC
@@ -63,7 +64,7 @@ class AdminRBAC
         }
 
         //没有权限
-        if (!$admin->group()->where('admin_groups.rules_id', $rules->id)->count())
+        if (!($admin->group instanceof AdminGroups) || !$admin->group->rule()->where('admin_group_rules.rule_id', $rules->id)->count())
         {
             return response()->json(['message' => 'Forbidden'], 403);
         }
