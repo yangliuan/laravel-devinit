@@ -9,12 +9,12 @@ use App\Http\Requests\{{Model}}Request;
 
 class {{Models}}Controller extends Controller
 {
-	public function index()
+	public function index(Request $request)
 	{
 		${{models}} = {{Model}}::select()
 			->filter($request->all())
 			->latest()
-			->paginate();
+			->paginate($request->input('per_page',15));
 			
 		return response()->json(${{models}});
 	}
