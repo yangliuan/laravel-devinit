@@ -48,7 +48,8 @@ class MakeMigration
      */
     protected function start()
     {
-        $name = 'create_' . Str::plural(strtolower($this->devMakeCommandObj->argument('name'))) . '_table';
+        $name = 'create_' . strtolower($this->devMakeCommandObj->argument('name')) . '_table';
+
         $path = $this->getPath($name);
 
         if (!$this->classExists($name))
@@ -57,6 +58,7 @@ class MakeMigration
             $this->files->put($path, $this->compileMigrationStub());
             return $this->devMakeCommandObj->info('+ ' . $path);
         }
+
         return $this->devMakeCommandObj->comment('x ' . $path);
     }
 
@@ -81,6 +83,7 @@ class MakeMigration
         $stub = $this->files->get(substr(__DIR__, 0, -5) . 'Stubs/migration.stub');
 
         $this->replaceSchema($stub);
+
         $this->buildStub($this->devMakeCommandObj->getMeta(), $stub);
 
         return $stub;

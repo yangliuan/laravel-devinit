@@ -42,7 +42,6 @@ class MakeModel
     {
         $name = $this->devMakeCommandObj->getObjName('Name');
         $path = $this->getPath($name, 'model');
-
         //$this->createBaseModelIfNotExists();
 
         if ($this->files->exists($path))

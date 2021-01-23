@@ -1,4 +1,4 @@
-Schema::create('{{models}}', function(Blueprint $table) {
+Schema::create('{{model}}', function(Blueprint $table) {
             $table->id();
             {{schema_up}}
             $table->timestamps();

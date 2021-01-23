@@ -52,9 +52,9 @@ class SyntaxBuilder
 
         if ($type == "migration")
         {
-
             $up = $this->createSchemaForUpMethod($schema, $meta);
             $down = $this->createSchemaForDownMethod($schema, $meta);
+
             return compact('up', 'down');
         }
         else if ($type == "controller")
