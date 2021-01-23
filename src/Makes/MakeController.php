@@ -35,7 +35,7 @@ class MakeController
      */
     private function start()
     {
-        $name = $this->devMakeCommandObj->getObjName('Names') . 'Controller';
+        $name = 'Admin/' . $this->devMakeCommandObj->getObjName('Names') . 'Controller';
         $path = $this->getPath($name, 'controller');
 
         if ($this->files->exists($path))
