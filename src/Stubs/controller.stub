@@ -9,11 +9,6 @@ use App\Http\Requests\{{Model}}Request;
 
 class {{Models}}Controller extends Controller
 {
-    public function __construct()
-    {
-        //$this->middleware('auth:', ['except' => []]);
-    }
-
 	public function index()
 	{
 		${{models}} = {{Model}}::select()
