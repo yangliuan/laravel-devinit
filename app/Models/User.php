@@ -45,6 +45,6 @@ class User extends Authenticatable
 
     public function getToken()
     {
-        return $this->createToken('api', ['api'])->accessToken;
+        return $this->createToken('api', ['api', 'common'])->accessToken;
     }
 }

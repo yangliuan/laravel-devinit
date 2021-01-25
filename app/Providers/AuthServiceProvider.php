@@ -32,6 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         Passport::tokensCan([
             'api' => 'Request Api',
             'admin' => 'Request Admin',
+            'common' => 'Request Common'
         ]);
     }
 }

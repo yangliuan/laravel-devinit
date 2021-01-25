@@ -74,6 +74,6 @@ class Admin extends Authenticatable
 
     public function getToken()
     {
-        return $this->createToken('admin', ['admin'])->accessToken;
+        return $this->createToken('admin', ['admin', 'common'])->accessToken;
     }
 }
