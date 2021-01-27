@@ -8,7 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\{{Model}}Request;
 
 class {{Model}}Controller extends Controller
-{
+{	
+	public function __construct()
+	{
+		//$this->middleware(['auth:admin', 'scope:admin']);
+	}
+
 	public function index(Request $request)
 	{
 		${{models}} = {{Model}}::select()
@@ -29,23 +34,27 @@ class {{Model}}Controller extends Controller
 		return response()->json(['id'=>${{model}}->id]);
 	}
 
-    public function show({{Model}} ${{model}})
-    {
+    public function show($id)
+    {	
+		${{model}} = {{Model}}::find($id);
+
         return response()->json(${{model}});
     }
 
-	public function update({{Model}}Request $request, {{Model}} ${{model}})
+	public function update({{Model}}Request $request,$id})
 	{	
 		$data = array_filter($request->all(),function($value){
 			return !is_null($value);
 		});
+		${{model}} = {{Model}}::findOrFail($id);
 		${{model}}->update($data);
 
 		return response()->json();
 	}
 
-	public function destroy({{Model}} ${{model}})
-	{
+	public function destroy($id)
+	{	
+		${{model}} = {{Model}}::findOrFail($id);
 		${{model}}->delete();
 
 		return response()->json();

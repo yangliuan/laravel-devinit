@@ -38,7 +38,7 @@ class MakeFormRequest
      */
     private function start()
     {
-        $name = $this->devMakeCommandObj->getObjName('Name');
+        $name = 'Admin/' . $this->devMakeCommandObj->getObjName('Name');
         //$this->makeRequest('ApiRequest', 'request');
         $this->makeRequest($name . 'Request', 'request_model');
     }
