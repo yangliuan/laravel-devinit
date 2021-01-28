@@ -72,13 +72,13 @@ class InstallCommand extends Command
             $this->info('install laravel/telescope successed!');
         }
 
-        if ($this->choice('Do you want to install fruitcake/laravel-telescope-toolbar?', ['yes', 'no'], 0) === 'yes')
-        {
-            $this->info('start install fruitcake/laravel-telescope-toolbar...');
-            system('composer require fruitcake/laravel-telescope-toolbar --dev');
-            system('php artisan vendor:publish --provider="Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"');
-            $this->info('install fruitcake/laravel-telescope-toolbar successed!');
-        }
+        // if ($this->choice('Do you want to install fruitcake/laravel-telescope-toolbar?', ['yes', 'no'], 0) === 'yes')
+        // {
+        //     $this->info('start install fruitcake/laravel-telescope-toolbar...');
+        //     system('composer require fruitcake/laravel-telescope-toolbar --dev');
+        //     system('php artisan vendor:publish --provider="Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"');
+        //     $this->info('install fruitcake/laravel-telescope-toolbar successed!');
+        // }
 
         system('php artisan dev:reset');
     }
