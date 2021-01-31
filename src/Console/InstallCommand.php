@@ -32,7 +32,7 @@ class InstallCommand extends Command
         $this->info('start install laravel/passport...');
         system('composer require laravel/passport');
         system('php artisan migrate');
-        system('php artisan passport:install --uuid');
+        system('php artisan passport:install --uuids');
         $this->info('install laravel/passport successed!');
 
         $this->info('start install overtrue/laravel-lang');
