@@ -18,7 +18,7 @@ class AuthController extends Controller
         return response()->json(['token_type' => 'bearer', 'token' => $token]);
     }
 
-    public function loginOut(Request $request)
+    public function logout(Request $request)
     {
         $request->user('api')->tokens()->delete();
 

@@ -28,6 +28,11 @@ class AdminGroups extends BaseModel
         return $this->belongsToMany('App\Models\AdminRules', 'admin_group_rules', 'group_id', 'rule_id');
     }
 
+    public function admin()
+    {
+        return $this->hasMany('App\Models\Admin', 'group_id', 'id');
+    }
+
     public function refreshCache()
     {
         $rules = AdminRules::select('*')

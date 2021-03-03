@@ -11,7 +11,7 @@ class PublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'dev:publish {--force : Overwrite any existing files}';
+    protected $signature = 'dev:publish  {authtype} {--force : Overwrite any existing files}';
 
     /**
      * The console command description.
@@ -27,6 +27,8 @@ class PublishCommand extends Command
      */
     public function handle()
     {
+        $authtype = $this->argument('authtype');
+
         $this->call('vendor:publish', [
             '--tag' => 'app-config',
             '--force' => 'force',
@@ -96,5 +98,13 @@ class PublishCommand extends Command
             '--tag' => 'devinit-cmd',
             '--force' => $this->option('force'),
         ]);
+
+        if ($authtype == 'passport')
+        {
+            $this->call('vendor:publish', [
+                '--tag' => 'devinit-passport',
+                '--force' => $this->option('force'),
+            ]);
+        }
     }
 }

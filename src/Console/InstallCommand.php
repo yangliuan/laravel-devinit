@@ -29,11 +29,31 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->info('start install laravel/passport...');
-        system('composer require laravel/passport');
-        system('php artisan migrate');
-        system('php artisan passport:install --uuids');
-        $this->info('install laravel/passport successed!');
+        $authMethod = $this->choice('please choice authorization method ?', ['passport'], 0);
+
+        if ($authMethod == 'passport')
+        {
+            $this->info('start install laravel/passport...');
+            system('composer require laravel/passport');
+            system('php artisan migrate');
+            system('php artisan passport:install --uuids');
+            $this->info('install laravel/passport successed!');
+        }
+
+        $loginMethod = $this->choice('please choice users login method', ['mobile-smscode'], 0);
+
+        if ($loginMethod == 'mobile-smscode')
+        {
+            system('composer require propaganistas/laravel-phone');
+            $smscodeType = $this->choice('please choice smscode type', ['easysms', 'custom'], 0);
+
+            if ($smscodeType == 'easysms')
+            {
+                system('composer require overtrue/easy-sms');
+            }
+        }
+
+
 
         $this->info('start install overtrue/laravel-lang');
         system('composer require overtrue/laravel-lang');
@@ -45,7 +65,7 @@ class InstallCommand extends Command
         system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
         $this->info('install tucker-eric/eloquentfilter successed!');
 
-        system('php artisan dev:publish --force');
+        system('php artisan dev:publish ' . $authMethod . ' --force');
 
         if ($this->choice('Do you want to install composer require laravel/horizon?', ['yes', 'no'], 0) === 'yes')
         {
@@ -71,14 +91,6 @@ class InstallCommand extends Command
             system('php artisan migrate');
             $this->info('install laravel/telescope successed!');
         }
-
-        // if ($this->choice('Do you want to install fruitcake/laravel-telescope-toolbar?', ['yes', 'no'], 0) === 'yes')
-        // {
-        //     $this->info('start install fruitcake/laravel-telescope-toolbar...');
-        //     system('composer require fruitcake/laravel-telescope-toolbar --dev');
-        //     system('php artisan vendor:publish --provider="Fruitcake\\TelescopeToolbar\\ToolbarServiceProvider"');
-        //     $this->info('install fruitcake/laravel-telescope-toolbar successed!');
-        // }
 
         system('php artisan dev:reset');
     }
