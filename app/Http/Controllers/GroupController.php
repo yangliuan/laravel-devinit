@@ -36,12 +36,15 @@ class GroupController extends Controller
     {
         $request->validate([
             'title' => 'bail|required|string|max:20|unique:admin_groups,title',
-            'desc' => 'bail|required|string|max:100',
+            'desc' => 'bail|null|string|max:100',
         ], [
             'title.unique' => '管理组名称已存在'
         ]);
 
-        $adminGroup = AdminGroups::create($request->all());
+        $adminGroup = AdminGroups::create([
+            'title' => $request->input('title') ?? '',
+            'desc' => $request->input('desc') ?? ''
+        ]);
 
         return response()->json(['id' => $adminGroup->id]);
     }
@@ -53,13 +56,16 @@ class GroupController extends Controller
                 'bail', 'required', 'string', 'max:20',
                 Rule::unique('admin_groups', 'title')->ignore($id),
             ],
-            'desc' => 'bail|required|string|max:100',
+            'desc' => 'bail|null|string|max:100',
         ], [
             'title.unique' => '管理组名称已存在'
         ]);
 
         $admin = AdminGroups::findOrFail($id);
-        $admin->update($request->only(['title', 'desc']));
+        $admin->update([
+            'title' => $request->input('title') ?? '',
+            'desc' => $request->input('desc') ?? ''
+        ]);
 
         return response()->json();
     }
