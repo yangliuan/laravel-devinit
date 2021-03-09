@@ -13,7 +13,6 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 Console\InstallCommand::class,
                 Console\ResetCommand::class,
                 Console\PublishCommand::class,
-                Console\DevMakeCommand::class,
             ]);
 
             $this->publishes([

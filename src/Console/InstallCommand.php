@@ -4,9 +4,12 @@ namespace Yangliuan\LaravelDevinit\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Yangliuan\LaravelDevinit\Traits\Register;
 
 class InstallCommand extends Command
 {
+    use Register;
+
     /**
      * The console command name.
      *
@@ -29,6 +32,9 @@ class InstallCommand extends Command
      */
     public function handle()
     {
+        $this->regAppConfig();
+        $this->regCorsConfig();
+        dd(1);
         $authMethod = $this->choice('please choice authorization method ?', ['passport'], 0);
 
         if ($authMethod == 'passport')
