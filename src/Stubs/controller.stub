@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use {{namespace}}Models\{{Model}};
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\{{Model}}Request;
+use App\Http\Requests\Admin\{{Model}}Request;
 
 class {{Model}}Controller extends Controller
 {	
