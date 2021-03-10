@@ -41,7 +41,7 @@ class {{Model}}Controller extends Controller
         return response()->json(${{model}});
     }
 
-	public function update({{Model}}Request $request,$id})
+	public function update({{Model}}Request $request,$id)
 	{	
 		$data = array_filter($request->all(),function($value){
 			return !is_null($value);
