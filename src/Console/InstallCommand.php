@@ -32,8 +32,9 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->regAppConfig();
-        $this->regCorsConfig();
+        //$this->regAppConfig();
+        //$this->regCorsConfig();
+        $this->regAuthConfigPassport();
         dd(1);
         $authMethod = $this->choice('please choice authorization method ?', ['passport'], 0);
 
