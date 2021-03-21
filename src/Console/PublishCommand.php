@@ -30,16 +30,6 @@ class PublishCommand extends Command
         $authtype = $this->argument('authtype');
 
         $this->call('vendor:publish', [
-            '--tag' => 'app-config',
-            '--force' => 'force',
-        ]);
-
-        $this->call('vendor:publish', [
-            '--tag' => 'devinit-config',
-            '--force' => $this->option('force'),
-        ]);
-
-        $this->call('vendor:publish', [
             '--tag' => 'devinit-migrations',
             '--force' => $this->option('force'),
         ]);

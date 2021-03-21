@@ -16,15 +16,6 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ]);
 
             $this->publishes([
-                __DIR__ . '/../config/app.php' => config_path('app.php'),
-            ], 'app-config');
-
-            $this->publishes([
-                __DIR__ . '/../config/cors.php' => config_path('cors.php'),
-                __DIR__ . '/../config/eloquentfilter.php' => config_path('eloquentfilter.php'),
-            ], 'devinit-config');
-
-            $this->publishes([
                 __DIR__ . '/../database/migrations/' => database_path('migrations')
             ], 'devinit-migrations');
 

@@ -46,6 +46,37 @@ trait Register
         );
     }
 
+    public function regAppServiceProvider()
+    {
+        $this->replaceInFile(
+            app_path('Providers/AppServiceProvider.php'),
+            [
+                'use Illuminate\Support\ServiceProvider;',
+                'public function register()' . PHP_EOL . '    {' . PHP_EOL . '        //' . PHP_EOL . '    }'
+            ],
+            [
+                'use Illuminate\Support\ServiceProvider;' . PHP_EOL . 'use Illuminate\Support\Carbon;' . PHP_EOL . 'use Illuminate\Http\Resources\Json\JsonResource;' . PHP_EOL . 'use App\Http\Middleware\AdminRBAC;',
+                'public function register()' . PHP_EOL . '    {' . PHP_EOL . '        Carbon::setLocale(\'zh\');' . PHP_EOL . '        JsonResource::withoutWrapping();' . PHP_EOL . '        $this->app->singleton(AdminRBAC::class);' . PHP_EOL . '    }'
+            ]
+        );
+    }
+
+    public function regAuthServiceProviderByPassort()
+    {
+        $this->replaceInFile(
+            app_path('Providers/AuthServiceProvider.php'),
+            [
+                'use Illuminate\Support\Facades\Gate;',
+                '$this->registerPolicies();'
+            ],
+            [
+                'use Illuminate\Support\Facades\Gate;' . PHP_EOL . 'use Laravel\Passport\Passport;',
+                '$this->registerPolicies();' . PHP_EOL . '        Passport::routes();' . PHP_EOL . '        Passport::loadKeysFrom(\'\');' . PHP_EOL . '        Passport::personalAccessTokensExpireIn(now()->addDays(30));' . PHP_EOL . '        Passport::tokensCan([' . PHP_EOL . '            \'api\' => \'Request Api\',' . PHP_EOL . '            \'admin\' => \'Request Admin\',' . PHP_EOL . '        ]);'
+            ]
+
+        );
+    }
+
     /**
      * Replace a given string in a given file.
      *

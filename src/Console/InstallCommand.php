@@ -32,10 +32,10 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        //$this->regAppConfig();
-        //$this->regCorsConfig();
-        $this->regAuthConfigPassport();
-        dd(1);
+        $this->regAppConfig();
+        $this->regCorsConfig();
+        $this->regAppServiceProvider();
+
         $authMethod = $this->choice('please choice authorization method ?', ['passport'], 0);
 
         if ($authMethod == 'passport')
@@ -45,6 +45,8 @@ class InstallCommand extends Command
             system('php artisan migrate');
             system('php artisan passport:install --uuids');
             $this->info('install laravel/passport successed!');
+            $this->regAuthConfigPassport();
+            $this->regAuthServiceProviderByPassort();
         }
 
         $loginMethod = $this->choice('please choice users login method', ['mobile-smscode'], 0);
@@ -59,8 +61,6 @@ class InstallCommand extends Command
                 system('composer require overtrue/easy-sms');
             }
         }
-
-
 
         $this->info('start install overtrue/laravel-lang');
         system('composer require overtrue/laravel-lang');
