@@ -81,15 +81,6 @@ class InstallCommand extends Command
             system('php artisan migrate');
         }
 
-        if ($this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0) === 'yes')
-        {
-            $this->info('start install barryvdh/laravel-ide-helper...');
-            system('composer require barryvdh/laravel-ide-helper --dev');
-            system('php artisan ide-helper:generate');
-            system('php artisan vendor:publish --provider="Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider" --tag=config');
-            $this->info('install barryvdh/laravel-ide-helper successed!');
-        }
-
         if ($this->choice('Do you want to install laravel/telescope?', ['yes', 'no'], 0) === 'yes')
         {
             $this->info('start install laravel/telescope...');
@@ -97,6 +88,15 @@ class InstallCommand extends Command
             system('php artisan telescope:install');
             system('php artisan migrate');
             $this->info('install laravel/telescope successed!');
+        }
+
+        if ($this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0) === 'yes')
+        {
+            $this->info('start install barryvdh/laravel-ide-helper...');
+            system('composer require barryvdh/laravel-ide-helper --dev');
+            system('php artisan ide-helper:generate');
+            system('php artisan vendor:publish --provider="Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider" --tag=config');
+            $this->info('install barryvdh/laravel-ide-helper successed!');
         }
 
         system('php artisan dev:reset');
