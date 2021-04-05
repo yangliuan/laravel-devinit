@@ -93,7 +93,7 @@ class InstallCommand extends Command
         if ($this->choice('Do you want to install laravel/telescope?', ['yes', 'no'], 0) === 'yes')
         {
             $this->info('start install laravel/telescope...');
-            system('composer require laravel/telescope --dev');
+            system('composer require laravel/telescope');
             system('php artisan telescope:install');
             system('php artisan migrate');
             $this->info('install laravel/telescope successed!');
