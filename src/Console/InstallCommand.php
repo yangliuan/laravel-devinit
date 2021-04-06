@@ -64,7 +64,7 @@ class InstallCommand extends Command
 
             $this->call('vendor:publish', [
                 '--tag' => 'devinit-passport',
-                '--force' => $this->option('force'),
+                '--force' => 'force',
             ]);
         }
 
@@ -85,7 +85,7 @@ class InstallCommand extends Command
                 //发布短信相关文件
                 $this->call('vendor:publish', [
                     '--tag' => 'devinit-sms',
-                    '--force' => $this->option('force'),
+                    '--force' => 'force',
                 ]);
             }
         }

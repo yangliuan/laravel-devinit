@@ -77,7 +77,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-passport');
 
             $this->publishes([
-                __DIR__ . '/../app/Config/easysms.php' => config_path('easysms.php'),
+                __DIR__ . '/../app/config/easysms.php' => config_path('easysms.php'),
                 __DIR__ . '/../app/Services/VerificationCode_easysms.php' => app_path('Services/VerificationCode.php'),
                 __DIR__ . '/../app/Http/Controllers/NotifyController.php' => app_path('Http/Controllers/Common/NotifyController.php'),
             ], 'devinit-sms');
