@@ -32,8 +32,21 @@ class InstallCommand extends Command
      */
     public function handle()
     {
+        //检测数据库连接是否成功
+        DB::select(
+            'SELECT table_name tableName FROM information_schema.tables WHERE table_schema = (SELECT DATABASE())',
+            [
+                config('database.connections.mysql.database')
+            ]
+        );
+
+        //发布公共文件
+        system('php artisan dev:publish --force');
+        //初始化app配置
         $this->regAppConfig();
+        //初始化cors配置
         $this->regCorsConfig();
+        //注册appServiceProvider
         $this->regAppServiceProvider();
 
         $authMethod = $this->choice('please choice authorization method ?', ['passport'], 0);
@@ -47,9 +60,15 @@ class InstallCommand extends Command
             $this->info('install laravel/passport successed!');
             $this->regAuthConfigPassport();
             $this->regAuthServiceProviderByPassort();
+            $this->regHttpKernelByPassport();
+
+            $this->call('vendor:publish', [
+                '--tag' => 'devinit-passport',
+                '--force' => $this->option('force'),
+            ]);
         }
 
-        $loginMethod = $this->choice('please choice users login method', ['mobile-smscode'], 0);
+        $loginMethod = $this->choice('please choice users login method', ['mobile-smscode', 'custom'], 0);
 
         if ($loginMethod == 'mobile-smscode')
         {
@@ -59,6 +78,15 @@ class InstallCommand extends Command
             if ($smscodeType == 'easysms')
             {
                 system('composer require overtrue/easy-sms');
+                //注册easysms服务
+                $this->regAppServiceProviderByEasysms();
+                //注册短信日志配置
+                $this->regConfigLoggingBySms();
+                //发布短信相关文件
+                $this->call('vendor:publish', [
+                    '--tag' => 'devinit-sms',
+                    '--force' => $this->option('force'),
+                ]);
             }
         }
 
@@ -72,7 +100,7 @@ class InstallCommand extends Command
         system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
         $this->info('install tucker-eric/eloquentfilter successed!');
 
-        system('php artisan dev:publish ' . $authMethod . ' --force');
+
 
         if ($this->choice('Do you want to install composer require laravel/horizon?', ['yes', 'no'], 0) === 'yes')
         {

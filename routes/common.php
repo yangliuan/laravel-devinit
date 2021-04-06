@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('sendsms', 'NotifyController@sendSms'); //发短信
+//Route::post('sendsms', 'NotifyController@sendSms'); //发短信

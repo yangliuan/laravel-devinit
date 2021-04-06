@@ -29,8 +29,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-routes');
 
             $this->publishes([
-                __DIR__ . '/../app/Providers/AppServiceProvider.php' => app_path('Providers/AppServiceProvider.php'),
-                __DIR__ . '/../app/Providers/RouteServiceProvider.php' => app_path('Providers/RouteServiceProvider.php'),
+                __DIR__ . '/../Providers/RouteServiceProvider.php' => app_path('Providers/RouteServiceProvider.php'),
             ], 'devinit-providers');
 
             $this->publishes([
@@ -73,17 +72,15 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-cmd');
 
             $this->publishes([
-                __DIR__ . '/../app/Services/VerificationCode.php' => app_path('Services/VerificationCode.php'),
-                __DIR__ . '/../app/Http/Controllers/NotifyController.php' => app_path('Http/Controllers/Common/NotifyController.php'),
-            ], 'devinit-sms');
-
-            $this->publishes([
-                __DIR__ . '/../config/auth_passport.php' => config_path('auth.php'),
-                __DIR__ . '/../app/Providers/AuthServiceProvider_passport.php' => app_path('Providers/AuthServiceProvider.php'),
-                __DIR__ . '/../app/Http/Kernel_passport.php' => app_path('Http/Kernel.php'),
                 __DIR__ . '/../app/Models/Admin_passport.php' => app_path('Models/Admin.php'),
                 __DIR__ . '/../app/Models/User_passport.php' => app_path('Models/User.php'),
             ], 'devinit-passport');
+
+            $this->publishes([
+                __DIR__ . '/../app/Config/easysms.php' => config_path('easysms.php'),
+                __DIR__ . '/../app/Services/VerificationCode_easysms.php' => app_path('Services/VerificationCode.php'),
+                __DIR__ . '/../app/Http/Controllers/NotifyController.php' => app_path('Http/Controllers/Common/NotifyController.php'),
+            ], 'devinit-sms');
         }
     }
 }

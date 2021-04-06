@@ -71,10 +71,12 @@ class RouteServiceProvider extends ServiceProvider
         {
             return Limit::perMinute(600);
         });
+
         RateLimiter::for('admin', function (Request $request)
         {
             return Limit::perMinute(60);
         });
+
         RateLimiter::for('common', function (Request $request)
         {
             return Limit::perMinute(600);

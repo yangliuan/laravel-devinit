@@ -46,6 +46,19 @@ trait Register
         );
     }
 
+    public function regConfigLoggingBySms()
+    {
+        $this->replaceInFile(
+            config_path('logging.php'),
+            [
+                '\'emergency\' => [' . PHP_EOL . '            \'path\' => storage_path(\'logs/laravel.log\'),' . PHP_EOL . '        ],'
+            ],
+            [
+                '\'emergency\' => [' . PHP_EOL . '            \'path\' => storage_path(\'logs/laravel.log\'),' . PHP_EOL . '        ],' . PHP_EOL . PHP_EOL . '        \'smscode\' => [' . PHP_EOL . '            \'driver\' => \'daily\',' . PHP_EOL . '            \'path\' => storage_path(\'logs/smscode/easysms.log\'),' . PHP_EOL . '            \'level\' => \'info\',' . PHP_EOL . '            \'days\' => 30' . PHP_EOL . '        ],'
+            ]
+        );
+    }
+
     public function regAppServiceProvider()
     {
         $this->replaceInFile(
@@ -61,6 +74,22 @@ trait Register
         );
     }
 
+    public function regAppServiceProviderByEasysms()
+    {
+
+        $this->replaceInFile(
+            app_path('Providers/AppServiceProvider.php'),
+            [
+                'use App\Http\Middleware\AdminRBAC;',
+                'public function boot()' . PHP_EOL . '    {' . PHP_EOL . '        //' . PHP_EOL . '    }'
+            ],
+            [
+                'use App\Http\Middleware\AdminRBAC;' . PHP_EOL . 'use Overtrue\EasySms\EasySms;',
+                'public function boot()' . PHP_EOL . '    {' . PHP_EOL . '        $this->app->singleton(EasySms::class, function () {' . PHP_EOL . '            return new EasySms(config(\'easysms\'));' . PHP_EOL . '        });' . PHP_EOL . '        $this->app->alias(EasySms::class, \'easysms\');' . PHP_EOL . '    }',
+            ]
+        );
+    }
+
     public function regAuthServiceProviderByPassort()
     {
         $this->replaceInFile(
@@ -72,6 +101,20 @@ trait Register
             [
                 'use Illuminate\Support\Facades\Gate;' . PHP_EOL . 'use Laravel\Passport\Passport;',
                 '$this->registerPolicies();' . PHP_EOL . '        Passport::routes();' . PHP_EOL . '        Passport::loadKeysFrom(\'\');' . PHP_EOL . '        Passport::personalAccessTokensExpireIn(now()->addDays(30));' . PHP_EOL . '        Passport::tokensCan([' . PHP_EOL . '            \'api\' => \'Request Api\',' . PHP_EOL . '            \'admin\' => \'Request Admin\',' . PHP_EOL . '        ]);'
+            ]
+
+        );
+    }
+
+    public function regHttpKernelByPassport()
+    {
+        $this->replaceInFile(
+            app_path('Http/Kernel.php'),
+            [
+                '\'admin.rbac\' => \App\Http\Middleware\AdminRBAC::class,'
+            ],
+            [
+                '\'admin.rbac\' => \App\Http\Middleware\AdminRBAC::class,' . PHP_EOL . '        \'scopes\' => \Laravel\Passport\Http\Middleware\CheckScopes::class,' . PHP_EOL . '        \'scope\' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,'
             ]
 
         );
