@@ -43,7 +43,7 @@ class PublishCommand extends Command
         ]);
 
         $this->call('vendor:publish', [
-            '--tag' => 'devinit-providers',
+            '--tag' => 'devinit-kernel',
             '--force' => $this->option('force'),
         ]);
 

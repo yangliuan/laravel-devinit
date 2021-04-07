@@ -127,6 +127,12 @@ class InstallCommand extends Command
             $this->info('install barryvdh/laravel-ide-helper successed!');
         }
 
+
+        $this->call('vendor:publish', [
+            '--tag' => 'devinit-providers',
+            '--force' => 'force',
+        ]);
+
         system('php artisan dev:reset');
     }
 }

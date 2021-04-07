@@ -29,7 +29,11 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-routes');
 
             $this->publishes([
-                __DIR__ . '/../Providers/RouteServiceProvider.php' => app_path('Providers/RouteServiceProvider.php'),
+                __DIR__ . '/../app/Http/Kernel.php' => app_path('Http/Kernel.php'),
+            ], 'devinit-kernel');
+
+            $this->publishes([
+                __DIR__ . '/../app/Providers/RouteServiceProvider.php' => app_path('Providers/RouteServiceProvider.php'),
             ], 'devinit-providers');
 
             $this->publishes([
@@ -72,6 +76,8 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-cmd');
 
             $this->publishes([
+                __DIR__ . '/../routes/api_passport.php' => base_path('routes/api.php'),
+                __DIR__ . '/../routes/admin_passport.php' => base_path('routes/admin.php'),
                 __DIR__ . '/../app/Models/Admin_passport.php' => app_path('Models/Admin.php'),
                 __DIR__ . '/../app/Models/User_passport.php' => app_path('Models/User.php'),
             ], 'devinit-passport');

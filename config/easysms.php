@@ -31,4 +31,7 @@ return [
             'sign_name' => '',
         ],
     ],
+
+    //测试验证码，不实际发送
+    'no_send_smscode' => env('NO_SEND_SMSCODE', '0000')
 ];
