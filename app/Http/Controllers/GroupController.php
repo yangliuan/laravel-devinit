@@ -36,7 +36,7 @@ class GroupController extends Controller
     {
         $request->validate([
             'title' => 'bail|required|string|max:20|unique:admin_groups,title',
-            'desc' => 'bail|null|string|max:100',
+            'desc' => 'bail|nullable|string|max:100',
         ], [
             'title.unique' => '管理组名称已存在'
         ]);
@@ -56,7 +56,7 @@ class GroupController extends Controller
                 'bail', 'required', 'string', 'max:20',
                 Rule::unique('admin_groups', 'title')->ignore($id),
             ],
-            'desc' => 'bail|null|string|max:100',
+            'desc' => 'bail|nullable|string|max:100',
         ], [
             'title.unique' => '管理组名称已存在'
         ]);
