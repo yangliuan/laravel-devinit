@@ -61,7 +61,7 @@ class MakeSeed
 
     protected function generateSeed()
     {
-        $path = $this->getPath($this->devMakeCommandObj->getObjName('Name') . 'TableSeeder', 'seeders');
+        $path = $this->getPath($this->devMakeCommandObj->getObjName('Name') . 'TableSeeder', 'seed');
 
         if ($this->files->exists($path))
         {
