@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Exceptions\SendSmsException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -31,7 +30,7 @@ class VerificationCode
         {
             $result = app('easysms')->send($phone, [
                 'content'  => '验证码' . $code . '，您正在登录，若非本人操作，请勿泄露。',
-                'template' => 'SMS_208220005',
+                'template' => '',
                 'data' => [
                     'code' => $code
                 ],
@@ -39,7 +38,9 @@ class VerificationCode
         }
         catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $e)
         {
-            throw new SendSmsException($e->getLastException()->getMessage(), 500);
+            $log->info('发送失败' . $e->getLastException()->getMessage());
+
+            return false;
         }
 
         $log->info('验证码:' . $code . '发送成功' . "\r\n");
@@ -58,7 +59,7 @@ class VerificationCode
      */
     public static function validate($phone, $code, $type = 'user')
     {
-        if (config('app.debug') && config('sms.no_send_code') === $code)
+        if (config('app.debug') && config('easysms.no_send_smscode') === $code)
         {
             return true;
         }

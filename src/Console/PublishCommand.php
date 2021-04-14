@@ -28,16 +28,6 @@ class PublishCommand extends Command
     public function handle()
     {
         $this->call('vendor:publish', [
-            '--tag' => 'app-config',
-            '--force' => 'force',
-        ]);
-
-        $this->call('vendor:publish', [
-            '--tag' => 'devinit-config',
-            '--force' => $this->option('force'),
-        ]);
-
-        $this->call('vendor:publish', [
             '--tag' => 'devinit-migrations',
             '--force' => $this->option('force'),
         ]);
@@ -53,12 +43,7 @@ class PublishCommand extends Command
         ]);
 
         $this->call('vendor:publish', [
-            '--tag' => 'devinit-providers',
-            '--force' => $this->option('force'),
-        ]);
-
-        $this->call('vendor:publish', [
-            '--tag' => 'devinit-services',
+            '--tag' => 'devinit-kernel',
             '--force' => $this->option('force'),
         ]);
 

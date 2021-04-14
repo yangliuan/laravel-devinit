@@ -25,44 +25,6 @@ $ php artisan dev:init //执行初始化
 
 $ php artisan dev:reset //刷新数据和key
 
-$ php artisan dev:make  Banner --schema="name:string(50):default(''):comment('名称'),asset:string(255):default(''):comment('资源图片'),sort:integer:default(0):comment('排序值'),show_position:tinyInteger:default(0):comment('展示位0Banner')"
-
-crud生成工具，迁移文件属性之间用“:”分割，字段组之间用“,”分割， 交互操作 注意comment方法括号内容不能有":,;"否则会报错
------------ dev: Banner -----------
-
- Do you want to make all? (yes/no) [no]:
- > n
-
- Do you want to make migration? (yes/no) [no]:
- > n
-
- Do you want to make seed? (yes/no) [no]:
- > n
-
- Do you want to make model? (yes/no) [no]:
- > n
-
- Do you want to make controller? (yes/no) [no]:
- > n
-
- Do you want to make form request? (yes/no) [no]:
- > n
-
- Do you want to make model observer? (yes/no) [no]:
- > n
-
- Do you want to make policy? (yes/no) [no]:
- > n
-
- Do you want to run migrate? (yes/no) [no]:
- > n
-
-
------------ ----------- -----------
------------ >DUMP AUTOLOAD< -----------
-```
-
-
 ## Usage
 
 

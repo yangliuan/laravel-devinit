@@ -13,11 +13,6 @@ use App\Models\AdminSyslog;
 
 class AdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth:admin', 'scope:admin'])->except('login');
-    }
-
     public function login(Request $request, AdminRules $adminRule)
     {
         $request->validate([

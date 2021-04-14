@@ -11,11 +11,6 @@ use App\Models\AdminRules;
 
 class GroupController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth:admin', 'scope:admin']);
-    }
-
     public function index(Request $request)
     {
         $adminGroups = AdminGroups::select()
@@ -36,13 +31,13 @@ class GroupController extends Controller
     {
         $request->validate([
             'title' => 'bail|required|string|max:20|unique:admin_groups,title',
-            'desc' => 'bail|nullable|string|max:100',
+            'desc' => 'bail|nullable|string|max:255',
         ], [
             'title.unique' => '管理组名称已存在'
         ]);
 
         $adminGroup = AdminGroups::create([
-            'title' => $request->input('title') ?? '',
+            'title' => $request->input('title'),
             'desc' => $request->input('desc') ?? ''
         ]);
 
@@ -56,14 +51,14 @@ class GroupController extends Controller
                 'bail', 'required', 'string', 'max:20',
                 Rule::unique('admin_groups', 'title')->ignore($id),
             ],
-            'desc' => 'bail|nullable|string|max:100',
+            'desc' => 'bail|nullable|string|max:255',
         ], [
             'title.unique' => '管理组名称已存在'
         ]);
 
         $admin = AdminGroups::findOrFail($id);
         $admin->update([
-            'title' => $request->input('title') ?? '',
+            'title' => $request->input('title'),
             'desc' => $request->input('desc') ?? ''
         ]);
 
@@ -73,6 +68,12 @@ class GroupController extends Controller
     public function destroy(Request $request, $id)
     {
         $admin = AdminGroups::findOrFail($id);
+
+        if ($admin->admin()->count())
+        {
+            return response()->json(['message' => 'The given data was invalid.', 'errors' => ['id' => ['管理组下有管理员不能删除']]], 422);
+        }
+
         $admin->delete();
         DB::table('admin_group_rules')->where('group_id', $id)->delete();
 
