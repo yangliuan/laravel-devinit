@@ -24,7 +24,6 @@ class CreateAdminGroupsTable extends Migration
             $table->timestamps();
             $table->index('status');
         });
-
         DB::statement("ALTER TABLE admin_groups comment '管理组表'");
     }
 

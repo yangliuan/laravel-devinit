@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\AdminGroups;
@@ -71,7 +72,7 @@ class GroupController extends Controller
 
         if ($admin->admin()->count())
         {
-            return response()->json(['message' => 'The given data was invalid.', 'errors' => ['id' => ['管理组下有管理员不能删除']]], 422);
+            throw ValidationException::withMessages(['id' => ['管理组下有管理员不能删除']]);
         }
 
         $admin->delete();

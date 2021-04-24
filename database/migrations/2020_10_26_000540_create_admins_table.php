@@ -32,7 +32,6 @@ class CreateAdminsTable extends Migration
             $table->index('email');
             $table->index('group_id');
         });
-
         DB::statement("ALTER TABLE admins comment '管理员用户表'");
 
         DB::table('admins')->insert([

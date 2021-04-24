@@ -48,7 +48,6 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-models');
 
             $this->publishes([
-                __DIR__ . '/../app/Http/Controllers/AuthController.php' => app_path('Http/Controllers/Api/AuthController.php'),
                 __DIR__ . '/../app/Http/Controllers/AdminController.php' => app_path('Http/Controllers/Admin/AdminController.php'),
                 __DIR__ . '/../app/Http/Controllers/GroupController.php' => app_path('Http/Controllers/Admin/GroupController.php'),
                 __DIR__ . '/../app/Http/Controllers/PageController.php' => app_path('Http/Controllers/PageController.php'),
@@ -84,9 +83,16 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
 
             $this->publishes([
                 __DIR__ . '/../config/easysms.php' => config_path('easysms.php'),
+                __DIR__ . '/../app/Http/Controllers/AuthController.php' => app_path('Http/Controllers/Api/AuthController.php'),
                 __DIR__ . '/../app/Services/VerificationCode_easysms.php' => app_path('Services/VerificationCode.php'),
                 __DIR__ . '/../app/Http/Controllers/NotifyController.php' => app_path('Http/Controllers/Common/NotifyController.php'),
             ], 'devinit-sms');
+
+            $this->publishes([
+                __DIR__ . '/../config/wechat.php' => config_path('wechat.php'),
+                __DIR__ . '/../routes/api_wechat_passport.php' => base_path('routes/api.php'),
+                __DIR__ . '/../app/Http/Controllers/WechatAuthController.php' => app_path('Http/Controllers/Api/WechatAuthController.php'),
+            ], 'devinit-wechat');
         }
     }
 }

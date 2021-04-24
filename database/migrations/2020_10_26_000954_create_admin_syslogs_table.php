@@ -24,7 +24,6 @@ class CreateAdminSyslogsTable extends Migration
             $table->text('params')->nullable()->comment('请求参数');
             $table->timestamps();
         });
-
         DB::statement("ALTER TABLE admin_syslogs comment '管理员操作日志表'");
     }
 

@@ -18,9 +18,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'wechat_openid',
         'mobile',
         'name',
         'avatar',
+        'sex',
+        'province',
+        'city',
+        'area',
         'email',
         'password',
     ];

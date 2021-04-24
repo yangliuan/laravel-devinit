@@ -31,7 +31,6 @@ class CreateAdminRulesTable extends Migration
             $table->index('pid');
             $table->index('status');
         });
-
         DB::statement("ALTER TABLE admin_rules comment '权限规则表'");
     }
 

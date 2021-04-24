@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\AdminRequest;
+use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
@@ -31,12 +32,12 @@ class AdminController extends Controller
 
         if (!$admin || false === Hash::check($request->password, $admin->password))
         {
-            return response()->json(['message' => 'The given data was invalid.', 'errors' => ['username' => ['用户名或密码错误']]], 422);
+            throw ValidationException::withMessages(['username' => ['用户名或密码错误']]);
         }
 
         if (1 != $admin->status)
         {
-            return response()->json(['message' => 'The given data was invalid.', 'errors' => ['username' => ['账号已冻结']]], 422);
+            throw ValidationException::withMessages(['username' => ['账号已冻结']]);
         }
 
         $menu = AdminGroups::where('id', $admin->group_id)->value('cache') ?? $adminRule->toTree();

@@ -68,7 +68,7 @@ class InstallCommand extends Command
             ]);
         }
 
-        $loginMethod = $this->choice('please choice users login method', ['mobile-smscode', 'custom'], 0);
+        $loginMethod = $this->choice('please choice users login method', ['mobile-smscode', 'wechat-miniprogram', 'custom'], 0);
 
         if ($loginMethod == 'mobile-smscode')
         {
@@ -89,6 +89,15 @@ class InstallCommand extends Command
                 ]);
             }
         }
+        elseif ($loginMethod == 'wechat-miniprogram')
+        {
+            system('composer require overtrue/wechat:~4.0');
+            //发布微信相关文件
+            $this->call('vendor:publish', [
+                '--tag' => 'devinit-wechat',
+                '--force' => 'force',
+            ]);
+        }
 
         $this->info('start install overtrue/laravel-lang');
         system('composer require overtrue/laravel-lang');
@@ -100,7 +109,10 @@ class InstallCommand extends Command
         system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
         $this->info('install tucker-eric/eloquentfilter successed!');
 
-
+        if ($this->choice('Do you want to install composer require yangliuan/generator?', ['yes', 'no'], 0) === 'yes')
+        {
+            system('composer require "yangliuan/generator:8.*" --dev');
+        }
 
         if ($this->choice('Do you want to install composer require laravel/horizon?', ['yes', 'no'], 0) === 'yes')
         {

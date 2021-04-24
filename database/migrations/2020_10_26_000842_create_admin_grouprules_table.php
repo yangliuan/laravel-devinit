@@ -22,7 +22,6 @@ class CreateAdminGrouprulesTable extends Migration
             $table->index(['group_id', 'rule_id']);
             $table->timestamps();
         });
-
         DB::statement("ALTER TABLE admin_group_rules comment '管理组权限规则表'");
     }
 
