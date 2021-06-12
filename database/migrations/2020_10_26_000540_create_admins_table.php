@@ -35,12 +35,12 @@ class CreateAdminsTable extends Migration
         DB::statement("ALTER TABLE admins comment '管理员用户表'");
 
         DB::table('admins')->insert([
-            'name' => '超级管理员',
+            'name' => '系统管理员',
             'account' => 'admin',
             'mobile' => 'admin',
             'email' => '',
             'group_id' => 0,
-            'password' => bcrypt(123456),
+            'password' => bcrypt('admin'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);

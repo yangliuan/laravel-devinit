@@ -62,12 +62,15 @@ class AdminController extends Controller
 
     public function index(Request $request)
     {
-        $admins = Admin::where('id', '<>', 1)
+        $admins = Admin::select()
             ->with(['group' => function ($query)
             {
                 $query->select('id', 'title');
             }])
-            ->latest()
+            ->when($request->user('admin')->id > 1, function ($query)
+            {
+                $query->where('id', '>', 1);
+            })
             ->paginate($request->input('per_page', 20));
 
         return $admins;
@@ -75,12 +78,7 @@ class AdminController extends Controller
 
     public function show(Request $request, $id)
     {
-        if (1 == $id)
-        {
-            abort(404);
-        }
-
-        $admin = Admin::select('*')
+        $admin = Admin::select()
             ->with(['group' => function ($query)
             {
                 $query->select('id', 'title');
@@ -110,6 +108,7 @@ class AdminController extends Controller
                 return !is_null($value);
             }
         );
+
         $admin = Admin::findOrFail($id);
         $admin->update($data);
 
@@ -118,9 +117,9 @@ class AdminController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        if (1 == $id)
+        if (1 === (int) $id)
         {
-            abort(404);
+            throw ValidationException::withMessages(['id' => ['系统管理员无法删除']]);
         }
 
         $admin = Admin::findOrFail($id);
@@ -131,9 +130,9 @@ class AdminController extends Controller
 
     public function status(Request $request, $id)
     {
-        if (1 == $id)
+        if (1 === (int) $id)
         {
-            abort(404);
+            throw ValidationException::withMessages(['id' => ['系统管理员无法禁用']]);
         }
 
         $admin = Admin::select('id', 'status')->findOrFail($id);

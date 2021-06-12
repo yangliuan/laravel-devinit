@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 
 use Illuminate\Http\Request;
-use App\Http\Requests\RegisterOrLoginRequest;
+use App\Http\Requests\Api\RegisterOrLoginRequest;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 

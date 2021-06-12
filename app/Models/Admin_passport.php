@@ -13,6 +13,8 @@ class Admin extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens, DateFormat;
 
+    protected $table = 'admins';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -50,15 +52,23 @@ class Admin extends Authenticatable
 
     public static function boot()
     {
-        $request = request();
         parent::boot();
-        static::saving(function ($admin) use ($request)
-        {
-            if (Hash::needsRehash($admin->password))
+        static::saving(
+            function ($admin)
             {
-                $admin->password = \bcrypt($admin->password);
+                if (Hash::needsRehash($admin->password))
+                {
+                    $admin->password = \bcrypt($admin->password);
+                }
+
+                if ($admin->id === 1)
+                {
+                    $admin->name = '系统管理员';
+                    $admin->group_id = 0;
+                    $admin->status = 1;
+                }
             }
-        });
+        );
     }
 
     public function group()
