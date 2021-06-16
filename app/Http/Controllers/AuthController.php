@@ -15,7 +15,7 @@ class AuthController extends Controller
         $user = User::firstOrCreate(['mobile' => $request->input('mobile')]);
         $token = $user->getToken();
 
-        return response()->json(['token_type' => 'bearer', 'token' => $token]);
+        return response()->json(['token_type' => 'Bearer', 'token' => $token]);
     }
 
     public function logout(Request $request)
