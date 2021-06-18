@@ -109,6 +109,8 @@ class InstallCommand extends Command
         system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
         $this->info('install tucker-eric/eloquentfilter successed!');
 
+        $this->regEloquentfilterConfig();
+
         if ($this->choice('Do you want to install composer require yangliuan/generator?', ['yes', 'no'], 0) === 'yes')
         {
             system('composer require "yangliuan/generator:8.*" --dev');
