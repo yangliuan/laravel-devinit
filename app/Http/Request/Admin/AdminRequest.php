@@ -10,8 +10,6 @@ class AdminRequest extends ApiRequest
 {
     public function rules()
     {
-        $id = basename($this->path());
-
         switch ($this->method())
         {
             case 'POST':
@@ -20,16 +18,16 @@ class AdminRequest extends ApiRequest
                     return [
                         'name' => [
                             'bail', 'required', 'string', 'max:20',
-                            Rule::unique('admins', 'name')->ignore($id),
+                            Rule::unique('admins', 'name'),
                         ],
                         'account' => [
                             'bail', 'required', 'string', 'max:20',
-                            Rule::unique('admins', 'account')->ignore($id),
+                            Rule::unique('admins', 'account'),
                         ],
                         'password' => 'bail|nullable|string',
                         'mobile' => [
                             'bail', 'required', 'string', 'max:11',
-                            Rule::unique('admins', 'mobile')->ignore($id),
+                            Rule::unique('admins', 'mobile'),
                         ],
                         'group_id' => 'bail|required|integer|exists:admin_groups,id',
                         'status' => 'bail|required|integer|in:0,1',
@@ -40,18 +38,34 @@ class AdminRequest extends ApiRequest
                 // UPDATE
                 {
                     return [
+                        'id' => [
+                            function ($attribute, $value, $fail)
+                            {
+                                if ($this->route_id && $this->route_id === 1)
+                                {
+                                    if ($this->is('admin/admin/*') && $this->route_id !== $this->user('admin')->id)
+                                    {
+                                        return $fail('普通管理员无法修改系统管理员');
+                                    }
+                                    elseif ($this->is('admin/admin/status/*'))
+                                    {
+                                        return $fail('系统管理员无法被禁用');
+                                    }
+                                }
+                            }
+                        ],
                         'name' => [
                             'bail', 'required', 'string', 'max:20',
-                            Rule::unique('admins', 'name')->ignore($id),
+                            Rule::unique('admins', 'name')->ignore($this->route_id),
                         ],
                         'account' => [
                             'bail', 'required', 'string', 'max:20',
-                            Rule::unique('admins', 'account')->ignore($id),
+                            Rule::unique('admins', 'account')->ignore($this->route_id),
                         ],
                         'password' => 'bail|nullable|string',
                         'mobile' => [
                             'bail', 'required', 'string', 'max:11',
-                            Rule::unique('admins', 'mobile')->ignore($id),
+                            Rule::unique('admins', 'mobile')->ignore($this->route_id),
                         ],
                         'group_id' => [
                             'bail', 'required', 'integer',
@@ -70,7 +84,26 @@ class AdminRequest extends ApiRequest
                     ];
                 }
             case 'GET':
+                {
+                    return [
+                        'page' => 'bail|required|integer|min:1',
+                        'per_page' => 'bail|required|integer|min:1',
+                    ];
+                }
             case 'DELETE':
+                {
+                    return [
+                        'id' => [
+                            function ($attribute, $value, $fail)
+                            {
+                                if ($this->route_id && $this->route_id === 1)
+                                {
+                                    return $fail('无法删除系统管理员');
+                                }
+                            }
+                        ]
+                    ];
+                }
             default:
                 {
                     return [];

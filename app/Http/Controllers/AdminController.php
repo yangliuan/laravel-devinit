@@ -69,6 +69,7 @@ class AdminController extends Controller
             }])
             ->when($request->user('admin')->id > 1, function ($query)
             {
+                //只有系统管理员自己才能查看系统管理员
                 $query->where('id', '>', 1);
             })
             ->paginate($request->input('per_page', 20));
@@ -90,38 +91,34 @@ class AdminController extends Controller
 
     public function store(AdminRequest $request)
     {
-        $data = array_filter($request->all(), function ($value)
-        {
-            return !is_null($value);
-        });
-        $admin = Admin::create($data);
+        $admin = Admin::create(
+            array_filter($request->all(), function ($value)
+            {
+                return !is_null($value);
+            })
+        );
 
         return response()->json(['id' => $admin->id]);
     }
 
     public function update(AdminRequest $request, $id)
     {
-        $data = array_filter(
-            $request->only(['name', 'password', 'mobile', 'group_id', 'status']),
-            function ($value)
-            {
-                return !is_null($value);
-            }
-        );
-
         $admin = Admin::findOrFail($id);
-        $admin->update($data);
+        $admin->update(
+            array_filter(
+                $request->only(['name', 'password', 'mobile', 'group_id', 'status']),
+                function ($value)
+                {
+                    return !is_null($value);
+                }
+            )
+        );
 
         return response()->json();
     }
 
     public function destroy(Request $request, $id)
     {
-        if (1 === (int) $id)
-        {
-            throw ValidationException::withMessages(['id' => ['系统管理员无法删除']]);
-        }
-
         $admin = Admin::findOrFail($id);
         $admin->delete();
 
@@ -130,11 +127,6 @@ class AdminController extends Controller
 
     public function status(Request $request, $id)
     {
-        if (1 === (int) $id)
-        {
-            throw ValidationException::withMessages(['id' => ['系统管理员无法禁用']]);
-        }
-
         $admin = Admin::select('id', 'status')->findOrFail($id);
         $admin->status = abs(1 - $admin->status);
         $admin->save();
@@ -153,6 +145,7 @@ class AdminController extends Controller
             ])
             ->when($request->user('admin')->id > 1, function ($query) use ($request)
             {
+                //系统管理员查看所有人日志，普通管理员查看自己的日志
                 $query->where('admin_id', $request->user('admin')->id);
             })
             ->latest()

@@ -53,14 +53,21 @@ class Admin extends Authenticatable
     public static function boot()
     {
         parent::boot();
+        $request = request();
         static::saving(
-            function ($admin)
+            function ($admin) use ($request)
             {
-                if (Hash::needsRehash($admin->password))
+                //更新管理员密码
+                if (
+                    $request->is('admin/admin', 'admin/admin/*') &&
+                    $admin->isDirty('password') &&
+                    Hash::needsRehash($admin->password)
+                )
                 {
                     $admin->password = \bcrypt($admin->password);
                 }
 
+                //保证系统管理员不被修改
                 if ($admin->id === 1)
                 {
                     $admin->name = '系统管理员';
