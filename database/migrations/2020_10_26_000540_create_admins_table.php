@@ -16,7 +16,7 @@ class CreateAdminsTable extends Migration
     {
         Schema::create('admins', function (Blueprint $table)
         {
-            $table->id();
+            $table->increments('id');
             $table->string('name')->default('')->comment('管理员名称');
             $table->string('account', 20)->default('')->comment('登录账号');
             $table->string('mobile', 20)->default('')->comment('手机号');

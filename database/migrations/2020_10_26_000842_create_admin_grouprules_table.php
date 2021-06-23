@@ -16,7 +16,7 @@ class CreateAdminGrouprulesTable extends Migration
     {
         Schema::create('admin_group_rules', function (Blueprint $table)
         {
-            $table->id();
+            $table->increments('id');
             $table->integer('group_id', false, true)->default('0')->comment('管理组id');
             $table->integer('rule_id', false, true)->default('0')->comment('规则id');
             $table->index(['group_id', 'rule_id']);

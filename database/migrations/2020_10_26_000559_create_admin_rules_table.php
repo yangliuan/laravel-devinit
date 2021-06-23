@@ -16,7 +16,7 @@ class CreateAdminRulesTable extends Migration
     {
         Schema::create('admin_rules', function (Blueprint $table)
         {
-            $table->id();
+            $table->increments('id');
             $table->integer('pid', false, true)->default('0')->comment('上级id');
             $table->string('name', 100)->default('')->comment('标题');
             $table->string('api_http_method', 100)->default('')->comment('接口http请求方式');

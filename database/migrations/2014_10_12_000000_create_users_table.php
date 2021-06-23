@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table)
         {
-            $table->id();
+            $table->increments('id');
             $table->string('wechat_openid', 100)->default('')->comment('微信标识');
             $table->string('mobile', 15)->default('')->comment('手机号');
             $table->string('name', 20)->default('')->comment('昵称');
