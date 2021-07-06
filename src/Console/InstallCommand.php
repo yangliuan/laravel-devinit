@@ -34,12 +34,7 @@ class InstallCommand extends Command
     public function handle()
     {
         //检测数据库连接是否成功
-        DB::select(
-            'SELECT table_name tableName FROM information_schema.tables WHERE table_schema = (SELECT DATABASE())',
-            [
-                config('database.connections.mysql.database')
-            ]
-        );
+        DB::statement('SHOW TABLES');
 
         //发布公共文件
         $this->call('dev:publish', ['--force' => '--force']);
