@@ -55,21 +55,18 @@ class Admin extends Authenticatable
         parent::boot();
         $request = request();
         static::saving(
-            function ($admin) use ($request)
-            {
+            function ($admin) use ($request) {
                 //更新管理员密码
                 if (
                     $request->is('admin/admin', 'admin/admin/*') &&
                     $admin->isDirty('password') &&
                     Hash::needsRehash($admin->password)
-                )
-                {
+                ) {
                     $admin->password = \bcrypt($admin->password);
                 }
 
                 //保证系统管理员不被修改
-                if ($admin->id === 1)
-                {
+                if ($admin->id === 1) {
                     $admin->name = '系统管理员';
                     $admin->group_id = 0;
                     $admin->status = 1;
@@ -92,5 +89,16 @@ class Admin extends Authenticatable
     public function getToken()
     {
         return $this->createToken('admin', ['admin', 'common'])->accessToken;
+    }
+
+    public function getRules()
+    {
+        if ($this->id === 1) {
+            $rules = (new AdminRules())->toTree();
+        } else {
+            $rules = AdminGroups::where('id', $this->group_id)->value('cache') ?? [];
+        }
+
+        return $rules;
     }
 }
