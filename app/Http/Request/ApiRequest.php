@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the yangliuan/laradevtools.
+ *
+ * (c) yangliuan <yangliuancn@foxmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled.
+ */
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -11,8 +19,6 @@ class ApiRequest extends FormRequest
     public function __construct()
     {
         parent::__construct();
-
-        $this->route_id = $this->getRestFullRouteId();
     }
 
     /**
@@ -25,17 +31,14 @@ class ApiRequest extends FormRequest
         return true;
     }
 
-    private function getRestFullRouteId()
+    public function getRestFullRouteId()
     {
         $id = basename($this->path());
 
-        if (is_numeric($id))
-        {
+        if (is_numeric($id)) {
             return (int) $id;
         }
-        else
-        {
-            return null;
-        }
+
+        return null;
     }
 }
