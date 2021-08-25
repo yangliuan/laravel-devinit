@@ -13,7 +13,7 @@ class RefreshAdminRulesCmd extends Command
      *
      * @var string
      */
-    protected $signature = 'refresh:adminrules';
+    protected $signature = 'dev:refresh-rules';
 
     /**
      * The console command description.

@@ -38,6 +38,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
 
             $this->publishes([
                 __DIR__ . '/../app/Http/Middleware/AdminRBAC.php' => app_path('Http/Middleware/AdminRBAC.php'),
+                __DIR__ . '/../config/adminrbac.php' => config_path('adminrbac.php'),
             ], 'devinit-middlewares');
 
             $this->publishes([

@@ -8,39 +8,33 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
-use App\Models\AdminGroups;
-use App\Models\AdminRules;
 use App\Models\AdminSyslog;
 
 class AdminController extends Controller
 {
-    public function login(Request $request, AdminRules $adminRule)
+    public function login(Request $request)
     {
         $request->validate([
             'username' => 'bail|required|string',
             'password' => 'bail|required|string',
         ]);
 
-        $admin = Admin::select()
-            ->where(function ($query) use ($request)
-            {
+        $admin = Admin::select('id', 'name', 'account', 'mobile', 'group_id', 'status', 'password')
+            ->where(function ($query) use ($request) {
                 $query->where('mobile', $request->username)
                     ->orWhere('account', $request->username)
                     ->orWhere('email', $request->username);
             })
             ->first();
 
-        if (!$admin || false === Hash::check($request->password, $admin->password))
-        {
+        if (!$admin || false === Hash::check($request->password, $admin->password)) {
             throw ValidationException::withMessages(['username' => ['用户名或密码错误']]);
         }
 
-        if (1 != $admin->status)
-        {
+        if (1 != $admin->status) {
             throw ValidationException::withMessages(['username' => ['账号已冻结']]);
         }
 
-        $menu = AdminGroups::where('id', $admin->group_id)->value('cache') ?? $adminRule->toTree();
         $admin->log()->create([
             'admin_id' => $admin->id,
             'ip' => $request->getClientIp(),
@@ -49,6 +43,7 @@ class AdminController extends Controller
             'params' => $request->all()
         ]);
         $token = $admin->getToken();
+        $menu = $admin->getRules();
 
         return response()->json(compact('token', 'menu', 'admin'));
     }
@@ -60,15 +55,21 @@ class AdminController extends Controller
         return response()->json();
     }
 
+    public function info(Request $request)
+    {
+        $admin = $request->user('admin')->makeHidden('email', 'email_verified_at');
+        $menu = $admin->getRules();
+
+        return response()->json(compact('admin', 'menu'));
+    }
+
     public function index(Request $request)
     {
         $admins = Admin::select()
-            ->with(['group' => function ($query)
-            {
+            ->with(['group' => function ($query) {
                 $query->select('id', 'title');
             }])
-            ->when($request->user('admin')->id > 1, function ($query)
-            {
+            ->when($request->user('admin')->id > 1, function ($query) {
                 //只有系统管理员自己才能查看系统管理员
                 $query->where('id', '>', 1);
             })
@@ -80,8 +81,7 @@ class AdminController extends Controller
     public function show(Request $request, $id)
     {
         $admin = Admin::select()
-            ->with(['group' => function ($query)
-            {
+            ->with(['group' => function ($query) {
                 $query->select('id', 'title');
             }])
             ->findOrFail($id);
@@ -92,8 +92,7 @@ class AdminController extends Controller
     public function store(AdminRequest $request)
     {
         $admin = Admin::create(
-            array_filter($request->all(), function ($value)
-            {
+            array_filter($request->all(), function ($value) {
                 return !is_null($value);
             })
         );
@@ -107,8 +106,7 @@ class AdminController extends Controller
         $admin->update(
             array_filter(
                 $request->only(['name', 'password', 'mobile', 'group_id', 'status']),
-                function ($value)
-                {
+                function ($value) {
                     return !is_null($value);
                 }
             )
@@ -138,13 +136,11 @@ class AdminController extends Controller
     {
         $syslogs = AdminSyslog::select()
             ->with([
-                'admin' => function ($query)
-                {
+                'admin' => function ($query) {
                     $query->select('id', 'name', 'account');
                 }
             ])
-            ->when($request->user('admin')->id > 1, function ($query) use ($request)
-            {
+            ->when($request->user('admin')->id > 1, function ($query) use ($request) {
                 //系统管理员查看所有人日志，普通管理员查看自己的日志
                 $query->where('admin_id', $request->user('admin')->id);
             })

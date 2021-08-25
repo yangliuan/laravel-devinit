@@ -28,9 +28,9 @@ class ResetCommand extends Command
      */
     public function handle()
     {
-        $this->call('migrate:refresh'); //刷新数据
-        $this->call('passport:keys', ['--force' => 'force']); //重新生成passort-key文件
-        $this->call('passport:client', ['--personal' => 'personal']); //重新生成passwort 个人客户端秘钥数据
-        $this->call('refresh:adminrules');
+        system('php artisan migrate:refresh'); //刷新数据
+        system('php artisan passport:keys --force'); //重新生成passort-key文件
+        system('php artisan passport:client --personal'); //重新生成passwort 个人客户端秘钥数据
+        system('php artisan dev:refresh-rules'); //刷新权限路由
     }
 }
