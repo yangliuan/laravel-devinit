@@ -35,6 +35,7 @@ class InstallCommand extends Command
     {
         //检测数据库连接是否成功
         DB::statement('SHOW TABLES');
+        //$this->call('db');
 
         //发布公共文件
         system('php artisan dev:publish --force');
@@ -47,19 +48,15 @@ class InstallCommand extends Command
 
         $authMethod = $this->choice('please choice authorization method ?', ['passport'], 0);
 
-        if ($authMethod == 'passport')
-        {
+        if ($authMethod == 'passport') {
             $this->info('start install laravel/passport...');
             system('composer require laravel/passport');
             system('php artisan migrate');
 
-            if ($this->confirm('would you use passport --uuid options?', true))
-            {
+            if ($this->confirm('would you use passport --uuid options?', true)) {
                 $this->info('the next input must be yes!');
                 system('php artisan passport:install --uuids --force');
-            }
-            else
-            {
+            } else {
                 system('php artisan passport:install');
             }
 
@@ -70,15 +67,14 @@ class InstallCommand extends Command
             $this->info('install laravel/passport successed!');
         }
 
-        $loginMethod = $this->choice('please choice users login method', ['mobile-smscode', 'wechat-miniprogram', 'custom'], 0);
+        $loginMethod = $this->choice('please choice users login method', ['nothing','mobile-smscode', 'wechat-miniprogram','mobile-smscode & wechat-miniprogram'], 0);
 
-        if ($loginMethod == 'mobile-smscode')
-        {
+        //手机验证码登录方式，处理
+        if (in_array($loginMethod, ['mobile-smscode','mobile-smscode & wechat-miniprogram'])) {
             system('composer require propaganistas/laravel-phone');
             $smscodeType = $this->choice('please choice smscode type', ['easysms', 'custom'], 0);
 
-            if ($smscodeType == 'easysms')
-            {
+            if ($smscodeType == 'easysms') {
                 system('composer require overtrue/easy-sms');
                 //注册easysms服务
                 $this->regAppServiceProviderByEasysms();
@@ -88,8 +84,9 @@ class InstallCommand extends Command
                 system('php artisan vendor:publish --tag=devinit-sms --force');
             }
         }
-        elseif ($loginMethod == 'wechat-miniprogram')
-        {
+
+        //微信小程序登录方式，处理
+        if (in_array($loginMethod, ['wechat-miniprogram','mobile-smscode & wechat-miniprogram'])) {
             system('composer require overtrue/wechat:~4.0');
             //发布微信相关文件
             system('php artisan vendor:publish --tag=devinit-wechat --force');
@@ -100,8 +97,7 @@ class InstallCommand extends Command
         system('php artisan lang:publish zh_CN');
         $this->info('install overtrue/laravel-lang successed!');
 
-        if ($this->choice('Do you want to install tucker-eric/eloquentfilter?', ['yes', 'no'], 0) === 'yes')
-        {
+        if ($this->choice('Do you want to install tucker-eric/eloquentfilter?', ['yes', 'no'], 0) === 'yes') {
             $this->info('start install tucker-eric/eloquentfilter');
             system('composer require tucker-eric/eloquentfilter');
             system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
@@ -109,20 +105,17 @@ class InstallCommand extends Command
             $this->info('install tucker-eric/eloquentfilter successed!');
         }
 
-        if ($this->choice('Do you want to install yangliuan/generator?', ['yes', 'no'], 0) === 'yes')
-        {
+        if ($this->choice('Do you want to install yangliuan/generator?', ['yes', 'no'], 0) === 'yes') {
             system('composer require "yangliuan/generator:8.*" --dev');
         }
 
-        if ($this->choice('Do you want to install laravel/horizon?', ['yes', 'no'], 0) === 'yes')
-        {
+        if ($this->choice('Do you want to install laravel/horizon?', ['yes', 'no'], 0) === 'yes') {
             system('composer require laravel/horizon');
             system('php artisan horizon:install');
             system('php artisan migrate');
         }
 
-        if ($this->choice('Do you want to install laravel/telescope?', ['yes', 'no'], 0) === 'yes')
-        {
+        if ($this->choice('Do you want to install laravel/telescope?', ['yes', 'no'], 0) === 'yes') {
             $this->info('start install laravel/telescope...');
             system('composer require laravel/telescope');
             system('php artisan telescope:install');
@@ -130,8 +123,7 @@ class InstallCommand extends Command
             $this->info('install laravel/telescope successed!');
         }
 
-        if ($this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0) === 'yes')
-        {
+        if ($this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0) === 'yes') {
             $this->info('start install barryvdh/laravel-ide-helper...');
             system('composer require barryvdh/laravel-ide-helper --dev');
             system('php artisan ide-helper:generate');
