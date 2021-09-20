@@ -42,10 +42,11 @@ class AdminController extends Controller
             'log' => '管理员登录',
             'params' => $request->all()
         ]);
+        $token_type = 'Bearer';
         $token = $admin->getToken();
         $menu = $admin->getRules();
 
-        return response()->json(compact('token', 'menu', 'admin'));
+        return response()->json(compact('token_type', 'token', 'menu', 'admin'));
     }
 
     public function logout(Request $request)

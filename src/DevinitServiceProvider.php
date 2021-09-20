@@ -6,9 +6,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     public function boot()
     {
-        if ($this->app->runningInConsole())
-        {
-
+        if ($this->app->runningInConsole()) {
             $this->commands([
                 Console\InstallCommand::class,
                 Console\ResetCommand::class,
@@ -70,6 +68,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             ], 'devinit-traits');
 
             $this->publishes([
+                __DIR__ . '/../app/Console/Commands/CreatePassportTokenCommand.php' => app_path('Console/Commands/CreatePassportTokenCommand.php'),
                 __DIR__ . '/../app/Console/Commands/RefreshAdminRulesCmd.php' => app_path('Console/Commands/RefreshAdminRulesCmd.php'),
                 __DIR__ . '/../app/Console/Commands/ScheduleLogCmd.php' => app_path('Console/Commands/ScheduleLogCmd.php'),
                 __DIR__ . '/../app/Console/Kernel.php' => app_path('Console/Kernel.php'),
@@ -91,8 +90,6 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
 
             $this->publishes([
                 __DIR__ . '/../config/wechat.php' => config_path('wechat.php'),
-                __DIR__ . '/../routes/api_wechat_passport.php' => base_path('routes/api.php'),
-                __DIR__ . '/../app/Http/Controllers/WechatAuthController.php' => app_path('Http/Controllers/Api/WechatAuthController.php'),
             ], 'devinit-wechat');
         }
     }

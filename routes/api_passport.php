@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', 'AuthController@registerOrLogin');
-Route::post('logout', 'AuthController@logout')->middleware(['auth:api', 'scope:api']);
+Route::post('mobile-login', 'AuthController@mobile');//手机号登录注册
+Route::post('miniprogram-login', 'AuthController@miniprogram');//小程序登录注册
+Route::post('logout', 'AuthController@logout')->middleware(['auth:api', 'scope:api']);//登出

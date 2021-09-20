@@ -31,6 +31,11 @@ class ApiRequest extends FormRequest
         return true;
     }
 
+    /**
+     * 获取路由末尾的参数
+     *
+     * @return mixed
+     */
     public function getRestFullRouteId()
     {
         $id = basename($this->path());
@@ -40,5 +45,19 @@ class ApiRequest extends FormRequest
         }
 
         return null;
+    }
+
+    /**
+     * 过滤null值，并且合并默认值
+     *
+     * @param array $default 默认值数组，用于选填的字段
+     * @param mixed $keys
+     * @return array
+     */
+    public function filter(array $default = [], $keys = null)
+    {
+        return array_filter($this->all($keys), function ($value) {
+            return !is_null($value);
+        }) + $default;
     }
 }

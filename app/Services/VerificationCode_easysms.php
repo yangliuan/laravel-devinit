@@ -26,8 +26,7 @@ class VerificationCode
         $log->info("生成验证码:{$phone}:{$code}");
         $key = $type . '_' . sprintf(self::KEY_TEMPLATE, $phone);
         Cache::put($key, $code, 300);
-        try
-        {
+        try {
             $result = app('easysms')->send($phone, [
                 'content'  => '验证码' . $code . '，您正在登录，若非本人操作，请勿泄露。',
                 'template' => '',
@@ -35,9 +34,7 @@ class VerificationCode
                     'code' => $code
                 ],
             ]);
-        }
-        catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $e)
-        {
+        } catch (\Overtrue\EasySms\Exceptions\NoGatewayAvailableException $e) {
             $log->info('发送失败' . $e->getLastException()->getMessage());
 
             return false;
@@ -59,13 +56,13 @@ class VerificationCode
      */
     public static function validate($phone, $code, $type = 'user')
     {
-        if (config('app.debug') && config('easysms.no_send_smscode') === $code)
-        {
+        $no_send_smscode = config('easysms.no_send_smscode');
+
+        if ($no_send_smscode && $no_send_smscode === $code) {
             return true;
         }
 
-        if (empty($phone) || empty($code))
-        {
+        if (empty($phone) || empty($code)) {
             return false;
         }
 
