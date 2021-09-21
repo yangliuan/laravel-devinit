@@ -14,13 +14,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ApiRequest extends FormRequest
 {
-    public $route_id;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *

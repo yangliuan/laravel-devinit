@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "admin" middleware group. Enjoy building your API!
 |
 */
-Route::post('login', 'AdminController@login'); //登录
+Route::post('login', 'AdminController@login')->middleware('login.lock'); //登录
 Route::middleware(['auth:admin', 'scope:admin'])->group(function () {
     Route::post('logout', 'AdminController@logout'); //登出
     Route::get('syslogs', 'AdminController@syslogs'); //系统日志

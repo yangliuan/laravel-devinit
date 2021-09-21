@@ -76,7 +76,6 @@ trait Register
 
     public function regAppServiceProviderByEasysms()
     {
-
         $this->replaceInFile(
             app_path('Providers/AppServiceProvider.php'),
             [
@@ -102,7 +101,6 @@ trait Register
                 'use Illuminate\Support\Facades\Gate;' . PHP_EOL . 'use Laravel\Passport\Passport;',
                 '$this->registerPolicies();' . PHP_EOL . '        Passport::routes();' . PHP_EOL . '        Passport::loadKeysFrom(\'\');' . PHP_EOL . '        Passport::personalAccessTokensExpireIn(now()->addDays(30));' . PHP_EOL . '        Passport::tokensCan([' . PHP_EOL . '            \'api\' => \'Request Api\',' . PHP_EOL . '            \'admin\' => \'Request Admin\',' . PHP_EOL . '            \'common\' => \'Request Commo\',' . PHP_EOL . '        ]);'
             ]
-
         );
     }
 
@@ -114,9 +112,8 @@ trait Register
                 '\'admin.rbac\' => \App\Http\Middleware\AdminRBAC::class,'
             ],
             [
-                '\'admin.rbac\' => \App\Http\Middleware\AdminRBAC::class,' . PHP_EOL . '        \'scopes\' => \Laravel\Passport\Http\Middleware\CheckScopes::class,' . PHP_EOL . '        \'scope\' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,'
+                '\'admin.rbac\' => \App\Http\Middleware\AdminRBAC::class,' . PHP_EOL . '        \'login.lock\' => \App\Http\Middleware\LoginLock::class,' . PHP_EOL . '        \'scopes\' => \Laravel\Passport\Http\Middleware\CheckScopes::class,' . PHP_EOL . '        \'scope\' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,'
             ]
-
         );
     }
 
