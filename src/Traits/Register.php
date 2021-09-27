@@ -117,6 +117,23 @@ trait Register
         );
     }
 
+    public function updateLoginLockKernel()
+    {
+        $kernel_path = app_path('Http/Kernel.php');
+        $kernel = file_get_contents($kernel_path);
+        if (strpos($kernel, '\'login.lock\' => \App\Http\Middleware\LoginLock::class,') === false) {
+            $this->replaceInFile(
+                $kernel_path,
+                [
+                '\'admin.rbac\' => \App\Http\Middleware\AdminRBAC::class,'
+                ],
+                [
+                '\'admin.rbac\' => \App\Http\Middleware\AdminRBAC::class,' . PHP_EOL . '        \'login.lock\' => \App\Http\Middleware\LoginLock::class,'
+                ]
+            );
+        }
+    }
+
     /**
      * Replace a given string in a given file.
      *

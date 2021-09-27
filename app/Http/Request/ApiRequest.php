@@ -44,12 +44,16 @@ class ApiRequest extends FormRequest
      * 过滤null值，并且合并默认值
      *
      * @param array $default 默认值数组，用于选填的字段
+     * @param string $request_method 获取数据方法 all only except
      * @param mixed $keys
      * @return array
      */
-    public function filter(array $default = [], $keys = null)
+    public function filter(array $default = [], $request_method = 'all', $keys = null)
     {
-        return array_filter($this->all($keys), function ($value) {
+        if (!in_array($request_method, ['all','only','except'])) {
+            return [];
+        }
+        return array_filter($this->$request_method($keys), function ($value) {
             return !is_null($value);
         }) + $default;
     }

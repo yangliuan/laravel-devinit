@@ -11,6 +11,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 Console\InstallCommand::class,
                 Console\ResetCommand::class,
                 Console\PublishCommand::class,
+                Console\UpdateCommand::class,
             ]);
 
             $this->publishes([
@@ -92,6 +93,25 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/wechat.php' => config_path('wechat.php'),
             ], 'devinit-wechat');
+
+            //更新基础组件
+            $this->publishes([
+                __DIR__ . '/../config/adminrbac.php' => config_path('adminrbac.php'),
+                __DIR__ . '/../app/Http/Middleware/AdminRBAC.php' => app_path('Http/Middleware/AdminRBAC.php'),
+                __DIR__ . '/../app/Http/Middleware/LoginLock.php' => app_path('Http/Middleware/LoginLock.php'),
+                __DIR__ . '/../app/Models/Admin_passport.php' => app_path('Models/Admin.php'),
+                __DIR__ . '/../app/Http/Request/ApiRequest.php' => app_path('Http/Requests/ApiRequest.php'),
+                __DIR__ . '/../app/Http/Request/Admin/AdminRequest.php' => app_path('Http/Requests/Admin/AdminRequest.php'),
+                __DIR__ . '/../app/Http/Resources/Resource.php' => app_path('Http/Resources/Resource.php'),
+                __DIR__ . '/../app/Http/Controllers/AdminController.php' => app_path('Http/Controllers/Admin/AdminController.php'),
+                __DIR__ . '/../app/Http/Controllers/GroupController.php' => app_path('Http/Controllers/Admin/GroupController.php'),
+                __DIR__ . '/../app/Models/BaseModel.php' => app_path('Models/BaseModel.php'),
+                __DIR__ . '/../app/Models/AdminGroups.php' => app_path('Models/AdminGroups.php'),
+                __DIR__ . '/../app/Models/AdminRules.php' => app_path('Models/AdminRules.php'),
+                __DIR__ . '/../app/Models/AdminSyslog.php' => app_path('Models/AdminSyslog.php'),
+                __DIR__ . '/../app/Traits/DateFormat.php' => app_path('Traits/DateFormat.php'),
+                __DIR__ . '/../app/Console/Commands/RefreshAdminRulesCmd.php' => app_path('Console/Commands/RefreshAdminRulesCmd.php'),
+            ], 'devinit-base');
         }
     }
 }
