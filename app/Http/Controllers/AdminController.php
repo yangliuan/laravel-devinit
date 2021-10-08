@@ -118,7 +118,10 @@ class AdminController extends Controller
     public function destroy(Request $request, $id)
     {
         $admin = Admin::findOrFail($id);
-        $admin->delete();
+
+        if ($id > 1) {
+            $admin->delete();
+        }
 
         return response()->json();
     }
@@ -127,7 +130,10 @@ class AdminController extends Controller
     {
         $admin = Admin::select('id', 'status')->findOrFail($id);
         $admin->status = abs(1 - $admin->status);
-        $admin->save();
+
+        if ($id > 1) {
+            $admin->save();
+        }
 
         return response()->json();
     }
