@@ -14,13 +14,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ApiRequest extends FormRequest
 {
-    public $route_id;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,6 +24,11 @@ class ApiRequest extends FormRequest
         return true;
     }
 
+    /**
+     * 获取路由末尾的参数
+     *
+     * @return mixed
+     */
     public function getRestFullRouteId()
     {
         $id = basename($this->path());
@@ -40,5 +38,23 @@ class ApiRequest extends FormRequest
         }
 
         return null;
+    }
+
+    /**
+     * 过滤null值，并且合并默认值
+     *
+     * @param array $default 默认值数组，用于选填的字段
+     * @param string $request_method 获取数据方法 all only except
+     * @param mixed $keys
+     * @return array
+     */
+    public function filter(array $default = [], $request_method = 'all', $keys = null)
+    {
+        if (!in_array($request_method, ['all','only','except'])) {
+            return [];
+        }
+        return array_filter($this->$request_method($keys), function ($value) {
+            return !is_null($value);
+        }) + $default;
     }
 }

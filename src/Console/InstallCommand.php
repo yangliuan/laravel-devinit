@@ -5,6 +5,7 @@ namespace Yangliuan\LaravelDevinit\Console;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Yangliuan\LaravelDevinit\Traits\Register;
 
 class InstallCommand extends Command
@@ -33,10 +34,12 @@ class InstallCommand extends Command
      */
     public function handle()
     {
+        //检测初始化脚本是否安装过
+        if (Storage::disk('local')->exists('devinit.lock')) {
+            return $this->error('devinit installed');
+        }
         //检测数据库连接是否成功
         DB::statement('SHOW TABLES');
-        //$this->call('db');
-
         //发布公共文件
         system('php artisan dev:publish --force');
         //初始化app配置
@@ -133,5 +136,7 @@ class InstallCommand extends Command
 
         system('php artisan vendor:publish --tag=devinit-providers --force');
         system('php artisan dev:reset');
+
+        Storage::disk('local')->put('devinit.lock', 'installed');
     }
 }

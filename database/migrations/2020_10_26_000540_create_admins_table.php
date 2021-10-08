@@ -14,8 +14,7 @@ class CreateAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table)
-        {
+        Schema::create('admins', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->default('')->comment('管理员名称');
             $table->string('account', 20)->default('')->comment('登录账号');
@@ -40,7 +39,7 @@ class CreateAdminsTable extends Migration
             'mobile' => 'admin',
             'email' => '',
             'group_id' => 0,
-            'password' => bcrypt('admin'),
+            'password' => bcrypt('admin001'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
