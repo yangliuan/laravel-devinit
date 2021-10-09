@@ -19,11 +19,14 @@ class LoginLock
 
     public function handle(Request $request, Closure $next)
     {
-        $key = $this->buildLoginNameKey($request);
-        //清除锁定的方法，php artisan tinker 执行Cache::tags('login_lock')->flush();
-        if (Cache::tags('login_lock')->get($key) > 5) {
-            $first_key = array_keys($request->all())[0];
-            throw ValidationException::withMessages([$first_key => ['登录次数超出上限,账号已被锁定']]);
+        //驱动支持时开启登录次数限制
+        if (in_array($this->cache_default, ['redis','memcached'])) {
+            $key = $this->buildLoginNameKey($request);
+            //清除锁定的方法，php artisan tinker 执行Cache::tags('login_lock')->flush();
+            if (Cache::tags('login_lock')->get($key) > 5) {
+                $first_key = array_keys($request->all())[0];
+                throw ValidationException::withMessages([$first_key => ['登录次数超出上限,账号已被锁定']]);
+            }
         }
 
         return $next($request);
