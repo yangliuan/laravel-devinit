@@ -33,14 +33,33 @@ trait Register
 
     public function regAuthConfigPassport()
     {
+        $auth_config_path = config_path('auth.php');
+        $api_guards = '\'api\' => [' . PHP_EOL . '            \'driver\' => \'token\',' . PHP_EOL . '            \'provider\' => \'users\',' . PHP_EOL . '            \'hash\' => false,' . PHP_EOL . '        ],';
+        $web_guards = '\'web\' => [' . PHP_EOL . '            \'driver\' => \'session\',' . PHP_EOL . '            \'provider\' => \'users\',' . PHP_EOL . '        ],';
+
+        if (
+            strpos(
+                file_get_contents($auth_config_path),
+                $api_guards
+            )!== false
+        ) {
+            //laravel8.5之前
+            $guards = $api_guards;
+            $replace = '\'api\' => [' . PHP_EOL . '            \'driver\' => \'passport\',' . PHP_EOL . '            \'provider\' => \'users\',' . PHP_EOL . '            \'hash\' => false,' . PHP_EOL . '        ],' . PHP_EOL . PHP_EOL . '        \'admin\' => [' . PHP_EOL . '            \'driver\' => \'passport\',' . PHP_EOL . '            \'provider\' => \'admin\',' . PHP_EOL . '            \'hash\' => false,' . PHP_EOL . '        ],' . PHP_EOL;
+        } else {
+            //laravel8.6以后没有了api guards,追加web guards
+            $guards = $web_guards;
+            $replace = '\'web\' => [' . PHP_EOL . '            \'driver\' => \'session\',' . PHP_EOL . '            \'provider\' => \'users\',' . PHP_EOL . '        ],'.PHP_EOL.PHP_EOL . '        \'api\' => [' . PHP_EOL . '            \'driver\' => \'passport\',' . PHP_EOL . '            \'provider\' => \'users\',' . PHP_EOL . '            \'hash\' => false,' . PHP_EOL . '        ],' . PHP_EOL . PHP_EOL . '        \'admin\' => [' . PHP_EOL . '            \'driver\' => \'passport\',' . PHP_EOL . '            \'provider\' => \'admin\',' . PHP_EOL . '            \'hash\' => false,' . PHP_EOL . '        ],' . PHP_EOL;
+        }
+
         $this->replaceInFile(
             config_path('auth.php'),
             [
-                '\'api\' => [' . PHP_EOL . '            \'driver\' => \'token\',' . PHP_EOL . '            \'provider\' => \'users\',' . PHP_EOL . '            \'hash\' => false,' . PHP_EOL . '        ],',
+                $guards,
                 '\'users\' => [' . PHP_EOL . '            \'driver\' => \'eloquent\',' . PHP_EOL . '            \'model\' => App\Models\User::class,' . PHP_EOL . '        ],'
             ],
             [
-                '\'api\' => [' . PHP_EOL . '            \'driver\' => \'passport\',' . PHP_EOL . '            \'provider\' => \'users\',' . PHP_EOL . '            \'hash\' => false,' . PHP_EOL . '        ],' . PHP_EOL . PHP_EOL . '        \'admin\' => [' . PHP_EOL . '            \'driver\' => \'passport\',' . PHP_EOL . '            \'provider\' => \'admin\',' . PHP_EOL . '            \'hash\' => false,' . PHP_EOL . '        ],' . PHP_EOL,
+                $replace,
                 '\'users\' => [' . PHP_EOL . '            \'driver\' => \'eloquent\',' . PHP_EOL . '            \'model\' => App\Models\User::class,' . PHP_EOL . '        ],' . PHP_EOL . PHP_EOL . '        \'admin\' => [' . PHP_EOL . '            \'driver\' => \'eloquent\',' . PHP_EOL . '            \'model\' => App\Models\Admin::class,' . PHP_EOL . '        ],' . PHP_EOL
             ]
         );
