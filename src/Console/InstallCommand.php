@@ -100,13 +100,11 @@ class InstallCommand extends Command
         system('php artisan lang:publish zh_CN');
         $this->info('install overtrue/laravel-lang successed!');
 
-        if ($this->choice('Do you want to install tucker-eric/eloquentfilter?', ['yes', 'no'], 0) === 'yes') {
-            $this->info('start install tucker-eric/eloquentfilter');
-            system('composer require tucker-eric/eloquentfilter');
-            system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
-            $this->regEloquentfilterConfig();
-            $this->info('install tucker-eric/eloquentfilter successed!');
-        }
+        $this->info('start install tucker-eric/eloquentfilter');
+        system('composer require tucker-eric/eloquentfilter');
+        system('php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"');
+        $this->regEloquentfilterConfig();
+        $this->info('install tucker-eric/eloquentfilter successed!');
 
         if ($this->choice('Do you want to install yangliuan/generator?', ['yes', 'no'], 0) === 'yes') {
             system('composer require "yangliuan/generator:8.*" --dev');
