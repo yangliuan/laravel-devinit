@@ -128,7 +128,7 @@ class InstallCommand extends Command
 
         if ($this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0) === 'yes') {
             $this->info('start install barryvdh/laravel-ide-helper...');
-            system('composer require barryvdh/laravel-ide-helper --dev');
+            system('composer require barryvdh/laravel-ide-helper --dev -w');
             system('php artisan ide-helper:generate');
             system('php artisan vendor:publish --provider="Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider" --tag=config');
             $this->info('install barryvdh/laravel-ide-helper successed!');
