@@ -32,6 +32,8 @@ return [
         ],
     ],
 
-    //测试验证码，不实际发送
-    'no_send_smscode' => env('NO_SEND_SMSCODE', '0000')
+    //测试验证码，不实际发送,生产环境不可用
+    'no_send_smscode' => env('NO_SEND_SMSCODE', '0000'),
+    //不验证手机号 用于苹果商店审核
+    'no_check_mobile'=> env('NO_CHECK_MOBILE', ''),
 ];
