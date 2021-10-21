@@ -53,8 +53,27 @@ class ApiRequest extends FormRequest
         if (!in_array($request_method, ['all','only','except'])) {
             return [];
         }
-        return array_filter($this->$request_method($keys), function ($value) {
+
+        return $this->arrayFilterRecursive($this->$request_method($keys), function ($value) {
             return !is_null($value);
         }) + $default;
+    }
+
+    /**
+    * 递归使用array_filter
+    *
+    * @param array $array
+    * @param callable $callback
+    * @return array
+    */
+    public function arrayFilterRecursive(array $array, callable $callback)
+    {
+        foreach ($array as &$value) {
+            if (is_array($value)) {
+                $value = $this->arrayFilterRecursive($value, $callback);
+            }
+        }
+
+        return array_filter($array, $callback);
     }
 }
