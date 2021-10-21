@@ -60,12 +60,12 @@ class ApiRequest extends FormRequest
     }
 
     /**
-    * 递归使用array_filter
-    *
-    * @param array $array
-    * @param callable $callback
-    * @return array
-    */
+     * 递归使用array_filter
+     *
+     * @param array $array
+     * @param callable $callback
+     * @return array
+     */
     public function arrayFilterRecursive(array $array, callable $callback)
     {
         foreach ($array as &$value) {
