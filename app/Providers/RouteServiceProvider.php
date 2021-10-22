@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string|null
      */
-    protected $namespace = 'App\\Http\\Controllers';
+    //protected $namespace = 'App\\Http\\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -37,21 +37,20 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->routes(function ()
-        {
+        $this->routes(function () {
             Route::prefix('common')
                 ->middleware('common')
-                ->namespace($this->namespace . '\\Common')
+                ->namespace($this->namespace)
                 ->group(base_path('routes/common.php'));
 
             Route::prefix('api')
                 ->middleware('api')
-                ->namespace($this->namespace . '\\Api')
+                ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
             Route::prefix('admin')
                 ->middleware('admin')
-                ->namespace($this->namespace . '\\Admin')
+                ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
 
             Route::middleware('web')
@@ -67,19 +66,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function configureRateLimiting()
     {
-        RateLimiter::for('api', function (Request $request)
-        {
-            return Limit::perMinute(600);
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(6000);
         });
 
-        RateLimiter::for('admin', function (Request $request)
-        {
+        RateLimiter::for('admin', function (Request $request) {
             return Limit::perMinute(60);
         });
 
-        RateLimiter::for('common', function (Request $request)
-        {
-            return Limit::perMinute(600);
+        RateLimiter::for('common', function (Request $request) {
+            return Limit::perMinute(6000);
         });
     }
 }

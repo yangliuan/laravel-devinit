@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Common\NotifyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('sendsms', 'NotifyController@sendSms'); //发短信
+Route::post('sendsms', [NotifyController::class,'sendSms']); //发短信
