@@ -124,6 +124,15 @@ class InstallCommand extends Command
             $this->info('install laravel/telescope successed!');
         }
 
+        if ($this->choice('Do you want to install studio/laravel-totem?', ['yes', 'no'], 0) === 'yes') {
+            $this->info('start install studio/laravel-totem...');
+            system('composer require studio/laravel-totem');
+            system('php artisan migrate');
+            system('php artisan totem:assets');
+            $this->info('install studio/laravel-totem successed!');
+        }
+
+
         if ($this->choice('Do you want to install barryvdh/laravel-ide-helper?', ['yes', 'no'], 0) === 'yes') {
             $this->info('start install barryvdh/laravel-ide-helper...');
             system('composer require barryvdh/laravel-ide-helper --dev -w');

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use Studio\Totem\Totem;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,7 @@ use App\Http\Controllers\PageController;
 */
 
 Route::get('/', [PageController::class,'welcome']);
+// Totem::auth(function ($request) {
+//     // return true / false . For e.g.
+//     return Auth::check();
+// });

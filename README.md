@@ -24,6 +24,7 @@
 | [propaganistas/laravel-phone](https://github.com/propaganistas/laravel-phone) |支持全球地区的手机号验证|手机号验证|
 | [overtrue/easy-sms](https://github.com/overtrue/easy-sms) |支持多平台的短信发送|短信发送|
 | [overtrue/wechat](https://github.com/w7corp/easywechat) |微信sdk|微信开发|
+| [studio/laravel-totem](https://github.com/codestudiohq/laravel-totem) |Manage your `Laravel Schedule` from a pretty dashboard. Schedule your `Laravel Console Commands` to your liking. Enable/Disable scheduled tasks on the fly without going back to your code again.|定时任务管理面板|
 
 
 
@@ -101,6 +102,12 @@ install overtrue/laravel-lang successed!
 
 #是否安装telescope调试工具
  Do you want to install laravel/telescope? [yes]:
+  [0] yes
+  [1] no
+ > 1
+ 
+ #是否安装totem定时任务管理
+ Do you want to install laravel-totem? [yes]:
   [0] yes
   [1] no
  > 1
