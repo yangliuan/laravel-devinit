@@ -55,12 +55,12 @@ class RefreshAdminRulesCmd extends Command
             [
                 'id' => 1, 'pid' => 0, 'name' => '权限管理',
                 'api_http_method' => 'GET', 'api_behavior' => '', 'params' => '',
-                'gui_type' => 1, 'gui_behavior' => '', 'status' => 1, 'is_log' => 0, 'sort' => 999
+                'gui_type' => 1, 'gui_behavior' => '/permission', 'status' => 1, 'is_log' => 0, 'sort' => 999
             ],
             [
                 'id' => 2, 'pid' => 1, 'name' => '管理组',
                 'api_http_method' => 'GET', 'api_behavior' => 'admin/group', 'params' => '',
-                'gui_type' => 2, 'gui_behavior' => '', 'status' => 1, 'is_log' => 0, 'sort' => 1
+                'gui_type' => 2, 'gui_behavior' => '/admingroup', 'status' => 1, 'is_log' => 0, 'sort' => 1
             ],
             [
                 'id' => 3, 'pid' => 2, 'name' => '添加管理组',
@@ -85,7 +85,7 @@ class RefreshAdminRulesCmd extends Command
             [
                 'id' => 8, 'pid' => 1, 'name' => '管理员',
                 'api_http_method' => 'GET', 'api_behavior' => 'admin/admin', 'params' => '',
-                'gui_type' => 2, 'gui_behavior' => '', 'status' => 1, 'is_log' => 0, 'sort' => 2
+                'gui_type' => 2, 'gui_behavior' => '/administrator', 'status' => 1, 'is_log' => 0, 'sort' => 2
             ],
             [
                 'id' => 9, 'pid' => 8, 'name' => '添加管理员',
@@ -115,7 +115,7 @@ class RefreshAdminRulesCmd extends Command
             [
                 'id' => 14, 'pid' => 1, 'name' => '系统日志',
                 'api_http_method' => 'GET', 'api_behavior' => 'admin/syslogs', 'params' => '',
-                'gui_type' => 2, 'gui_behavior' => '', 'status' => 1, 'is_log' => 0, 'sort' => 2
+                'gui_type' => 2, 'gui_behavior' => '/syslog', 'status' => 1, 'is_log' => 0, 'sort' => 2
             ],
 
         ];

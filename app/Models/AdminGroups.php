@@ -35,9 +35,8 @@ class AdminGroups extends BaseModel
 
     public function refreshCache()
     {
-        $rules = AdminRules::select('*')
-            ->whereHas('group', function ($query)
-            {
+        $rules = AdminRules::select('id', 'pid', 'name', 'gui_type', 'gui_behavior')
+            ->whereHas('group', function ($query) {
                 $query->where('admin_groups.id', $this->id);
             })
             ->get()

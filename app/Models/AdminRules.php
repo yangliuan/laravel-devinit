@@ -9,6 +9,7 @@ class AdminRules extends BaseModel
     protected $fillable = [
         'pid',
         'name',
+        'icon',
         'api_http_method',
         'api_behavior',
         'params',
@@ -32,23 +33,19 @@ class AdminRules extends BaseModel
         return $this->belongsToMany('App\Models\AdminGroups', 'admin_group_rules', 'rule_id', 'group_id');
     }
 
-    public function toTree(array $rules = [], $parentId = 0)
+    public function toTree(array $rules = [], $parentId = 0, $select_field = ['id','pid','name','icon','gui_type','gui_behavior'])
     {
         $branch = [];
 
-        if (empty($rules))
-        {
-            $rules = static::all()->toArray();
+        if (empty($rules)) {
+            $rules = static::all($select_field)->toArray();
         }
 
-        foreach ($rules as $rule)
-        {
-            if ($rule[$this->parentColumn] == $parentId)
-            {
+        foreach ($rules as $rule) {
+            if ($rule[$this->parentColumn] == $parentId) {
                 $children = $this->toTree($rules, $rule[$this->getKeyName()]);
 
-                if ($children)
-                {
+                if ($children) {
                     $rule['children'] = $children;
                 }
 

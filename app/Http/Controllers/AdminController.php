@@ -68,7 +68,10 @@ class AdminController extends Controller
     {
         $admins = Admin::select()
             ->with(['group' => function ($query) {
-                $query->select('id', 'title');
+                $query->select('id', 'title')
+                    ->withDefault([
+                        'id'=>0,'title'=>'无分组'
+                    ]);
             }])
             ->when($request->user('admin')->id > 1, function ($query) {
                 //只有系统管理员自己才能查看系统管理员
@@ -83,7 +86,10 @@ class AdminController extends Controller
     {
         $admin = Admin::select()
             ->with(['group' => function ($query) {
-                $query->select('id', 'title');
+                $query->select('id', 'title')
+                    ->withDefault([
+                        'id'=>0,'title'=>'无分组'
+                    ]);
             }])
             ->findOrFail($id);
 

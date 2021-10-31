@@ -14,11 +14,11 @@ class CreateAdminRulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('admin_rules', function (Blueprint $table)
-        {
+        Schema::create('admin_rules', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('pid', false, true)->default('0')->comment('上级id');
             $table->string('name', 100)->default('')->comment('标题');
+            $table->string('icon', 100)->default('')->comment('icon图标');
             $table->string('api_http_method', 100)->default('')->comment('接口http请求方式');
             $table->string('api_behavior', 255)->default('')->comment('接口行为');
             $table->string('params', 255)->default('')->comment('参数');
