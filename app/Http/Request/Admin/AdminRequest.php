@@ -41,9 +41,9 @@ class AdminRequest extends ApiRequest
                         'id' => [
                             function ($attribute, $value, $fail)
                             {
-                                if ($this->route_id && $this->route_id === 1)
+                                if ($this->getRestFullRouteId() && $this->getRestFullRouteId() === 1)
                                 {
-                                    if ($this->is('admin/admin/*') && $this->route_id !== $this->user('admin')->id)
+                                    if ($this->is('admin/admin/*') && $this->getRestFullRouteId() !== $this->user('admin')->id)
                                     {
                                         return $fail('普通管理员无法修改系统管理员');
                                     }
@@ -56,16 +56,16 @@ class AdminRequest extends ApiRequest
                         ],
                         'name' => [
                             'bail', 'required', 'string', 'max:20',
-                            Rule::unique('admins', 'name')->ignore($this->route_id),
+                            Rule::unique('admins', 'name')->ignore($this->getRestFullRouteId()),
                         ],
                         'account' => [
                             'bail', 'required', 'string', 'max:20',
-                            Rule::unique('admins', 'account')->ignore($this->route_id),
+                            Rule::unique('admins', 'account')->ignore($this->getRestFullRouteId()),
                         ],
                         'password' => 'bail|nullable|string',
                         'mobile' => [
                             'bail', 'required', 'string', 'max:11',
-                            Rule::unique('admins', 'mobile')->ignore($this->route_id),
+                            Rule::unique('admins', 'mobile')->ignore($this->getRestFullRouteId()),
                         ],
                         'group_id' => [
                             'bail', 'required', 'integer',
@@ -96,7 +96,7 @@ class AdminRequest extends ApiRequest
                         'id' => [
                             function ($attribute, $value, $fail)
                             {
-                                if ($this->route_id && $this->route_id === 1)
+                                if ($this->getRestFullRouteId() && $this->getRestFullRouteId() === 1)
                                 {
                                     return $fail('无法删除系统管理员');
                                 }
