@@ -157,6 +157,12 @@ class AdminController extends Controller
                 //系统管理员查看所有人日志，普通管理员查看自己的日志
                 $query->where('admin_id', $request->user('admin')->id);
             })
+            ->when($request->input('start_at'), function ($query) use ($request) {
+                $query->where('created_at', '>=', $request->input('start_at'));
+            })
+            ->when($request->input('end_at'), function ($query) use ($request) {
+                $query->where('created_at', '<=', $request->input('end_at'));
+            })
             ->latest()
             ->paginate($request->input('per_page', 20));
 
