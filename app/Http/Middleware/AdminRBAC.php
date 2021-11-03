@@ -20,8 +20,7 @@ class AdminRBAC
         $except_routes = config('adminrbac.except_routes', self::EXCEPT_ROUTE);
 
         //跳过不验证指定路由
-        if ($request->is(join(',', $except_routes)))
-        {
+        if ($request->is($except_routes)) {
             return $next($request);
         }
 
@@ -105,8 +104,8 @@ class AdminRBAC
     /**
      * 匹配带参数路由,成功返回adminrules对象
      *
-     * @param Illuminate\Http\Request $request 
-     * @return object 
+     * @param Illuminate\Http\Request $request
+     * @return object
      */
     protected function matchRules($request)
     {
