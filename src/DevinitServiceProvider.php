@@ -67,6 +67,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             $this->publishes([
                 __DIR__ . '/../app/Traits/DateFormat.php' => app_path('Traits/DateFormat.php'),
                 __DIR__ . '/../app/Traits/Helps.php' => app_path('Traits/Helps.php'),
+                __DIR__ . '/../app/Traits/PasswordHandle.php' => app_path('Traits/PasswordHandle.php'),
             ], 'devinit-traits');
 
             $this->publishes([
@@ -110,6 +111,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 __DIR__ . '/../app/Models/AdminRules.php' => app_path('Models/AdminRules.php'),
                 __DIR__ . '/../app/Models/AdminSyslog.php' => app_path('Models/AdminSyslog.php'),
                 __DIR__ . '/../app/Traits/DateFormat.php' => app_path('Traits/DateFormat.php'),
+                __DIR__ . '/../app/Traits/PasswordHandle.php' => app_path('Traits/PasswordHandle.php'),
                 __DIR__ . '/../app/Console/Commands/RefreshAdminRulesCmd.php' => app_path('Console/Commands/RefreshAdminRulesCmd.php'),
             ], 'devinit-base');
         }

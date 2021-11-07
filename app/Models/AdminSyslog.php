@@ -11,6 +11,7 @@ class AdminSyslog extends BaseModel
         'log',
         'ip',
         'method',
+        'path',
         'params',
     ];
 
