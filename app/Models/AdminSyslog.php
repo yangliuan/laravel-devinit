@@ -27,4 +27,13 @@ class AdminSyslog extends BaseModel
     {
         return $this->belongsTo('App\Models\Admin', 'admin_id', 'id');
     }
+
+    public function setParamsAttribute($value)
+    {
+        if (is_array($value) && isset($value['password'])) {
+            $value['password'] = \preg_replace('/./', '*', $value['password']);
+        }
+
+        $this->attributes['params'] = \json_encode($value);
+    }
 }

@@ -153,9 +153,10 @@ class AdminRBAC
 
         AdminSyslog::create([
             'admin_id' => $request->user('admin')->id,
-            'log' => $request->m_api_behavior_rules->name,
+            'log' => $request->m_api_behavior_rule->name,
             'ip' => $request->getClientIp(),
             'method' => $request->method(),
+            'path' => $request->path(),
             'params' => $request->all()
         ]);
     }

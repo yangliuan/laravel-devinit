@@ -38,8 +38,9 @@ class AdminController extends Controller
         $admin->log()->create([
             'admin_id' => $admin->id,
             'ip' => $request->getClientIp(),
-            'method' => $request->method(),
             'log' => '管理员登录',
+            'method' => $request->method(),
+            'path' => $request->path(),
             'params' => $request->all()
         ]);
         $token_type = 'Bearer';
@@ -51,7 +52,7 @@ class AdminController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user('admin')->tokens()->delete();
+        $request->user('admin')->tokens()->where('name', 'admin')->delete();
 
         return response()->json();
     }
