@@ -14,18 +14,18 @@ class GroupController extends Controller
 {
     public function index(Request $request)
     {
-        $adminGroups = AdminGroups::select()
+        $admin_groups = AdminGroups::select()
             ->latest()
             ->paginate($request->input('per_page', 20));
 
-        return $adminGroups;
+        return $admin_groups;
     }
 
     public function show(Request $request, $id)
     {
-        $adminGroup = AdminGroups::findOrFail($id);
+        $admin_groups = AdminGroups::findOrFail($id);
 
-        return response()->json($adminGroup);
+        return response()->json($admin_groups);
     }
 
     public function store(Request $request)
@@ -33,16 +33,17 @@ class GroupController extends Controller
         $request->validate([
             'title' => 'bail|required|string|max:20|unique:admin_groups,title',
             'desc' => 'bail|nullable|string|max:255',
+            'status'=>'bail|nullable|integer|in:1,0'
         ], [
             'title.unique' => '管理组名称已存在'
         ]);
 
-        $adminGroup = AdminGroups::create([
+        $admin_groups = AdminGroups::create([
             'title' => $request->input('title'),
             'desc' => $request->input('desc') ?? ''
         ]);
 
-        return response()->json(['id' => $adminGroup->id]);
+        return response()->json(['id' => $admin_groups->id]);
     }
 
     public function update(Request $request, $id)
@@ -53,12 +54,13 @@ class GroupController extends Controller
                 Rule::unique('admin_groups', 'title')->ignore($id),
             ],
             'desc' => 'bail|nullable|string|max:255',
+            'status'=>'bail|nullable|integer|in:1,0'
         ], [
             'title.unique' => '管理组名称已存在'
         ]);
 
-        $admin = AdminGroups::findOrFail($id);
-        $admin->update([
+        $admin_groups = AdminGroups::findOrFail($id);
+        $admin_groups->update([
             'title' => $request->input('title'),
             'desc' => $request->input('desc') ?? ''
         ]);
@@ -68,17 +70,41 @@ class GroupController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $admin = AdminGroups::findOrFail($id);
+        $admin_groups = AdminGroups::findOrFail($id);
 
-        if ($admin->admin()->count())
-        {
+        if ($admin_groups->admin()->count()) {
             throw ValidationException::withMessages(['id' => ['管理组下有管理员不能删除']]);
         }
 
-        $admin->delete();
+        $admin_groups->delete();
         DB::table('admin_group_rules')->where('group_id', $id)->delete();
 
         return response()->json();
+    }
+
+    public function status(Request $request, $id)
+    {
+        $admin_groups = AdminGroups::findOrFail($id);
+        $admin_groups->status = abs(1-$admin_groups->status);
+        $admin_groups->save();
+
+        return response()->json();
+    }
+
+    public function selectMenus(Request $request)
+    {
+        $request->validate([
+            'title'=>'bail|nullable|string'
+        ]);
+
+        $admin_groups = AdminGroups::select('id', 'title')
+            ->when($request->input('title'), function ($query) use ($request) {
+                $query->where('title', 'like', "{$request->input('title')}%");
+            })
+            ->latest()
+            ->get();
+
+        return $admin_groups;
     }
 
     public function rules(Request $request, AdminRules $adminRule)
@@ -98,18 +124,17 @@ class GroupController extends Controller
             'rules.*' => 'bail|required_with:rules|integer|exists:admin_rules,id',
         ]);
 
-        $adminGroup = AdminGroups::findOrFail($id);
+        $admin_groups = AdminGroups::findOrFail($id);
         $pids = AdminRules::whereIn('id', $request->rules)->pluck('pid')->toArray();
         $ppids = AdminRules::whereIn('id', $pids)->pluck('pid')->toArray();
 
         $rules = array_merge($pids, $ppids, $request->rules);
         $rules = array_unique($rules);
-        $rules = array_filter($rules, function ($value)
-        {
+        $rules = array_filter($rules, function ($value) {
             return 0 !== $value;
         });
-        $adminGroup->rule()->sync($rules);
-        $adminGroup->refreshCache();
+        $admin_groups->rule()->sync($rules);
+        $admin_groups->refreshCache();
 
         return response()->json();
     }

@@ -20,47 +20,41 @@ class AdminRBAC
         $except_routes = config('adminrbac.except_routes', self::EXCEPT_ROUTE);
 
         //跳过不验证指定路由
-        if ($request->is($except_routes)) {
+        if ($request->is(join(',', $except_routes))) {
             return $next($request);
         }
 
         $rule = $this->matchRules($request);
 
         //不存在
-        if (!$rule instanceof AdminRules)
-        {
+        if (!$rule instanceof AdminRules) {
             return $next($request);
         }
 
         //开启日志
-        if ($rule->is_log == 1)
-        {
+        if ($rule->is_log == 1) {
             $request->m_api_behavior_rule = $rule;
         }
 
         //不验证权限
-        if ($rule->status == 0)
-        {
+        if ($rule->status == 0) {
             return $next($request);
         }
 
         $admin = $request->user('admin');
 
         //系统管理员
-        if ($admin->id == 1)
-        {
+        if ($admin->id == 1) {
             return $next($request);
         }
 
         //管理员被禁用
-        if ($admin->status == 0)
-        {
+        if ($admin->status == 0) {
             return response()->json(['message' => 'Disabled'], 401);
         }
 
         //没有权限
-        if (!($admin->group instanceof AdminGroups) || !$admin->group->rule()->where('admin_group_rules.rule_id', $rule->id)->count())
-        {
+        if (!($admin->group instanceof AdminGroups) || $admin->group->status == 0 || !$admin->group->rule()->where('admin_group_rules.rule_id', $rule->id)->count()) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
@@ -82,19 +76,13 @@ class AdminRBAC
     {
         $pathInfo = pathinfo($path);
 
-        if (isset($pathInfo['basename']) && !empty($pathInfo['basename']))
-        {
-            if (is_numeric($pathInfo['basename']))
-            {
+        if (isset($pathInfo['basename']) && !empty($pathInfo['basename'])) {
+            if (is_numeric($pathInfo['basename'])) {
                 $rulePath = $pathInfo['dirname'] . '/';
-            }
-            else
-            {
+            } else {
                 $rulePath = $pathInfo['dirname'] . '/' . $pathInfo['basename'];
             }
-        }
-        else
-        {
+        } else {
             $rulePath = $path;
         }
 
@@ -116,39 +104,30 @@ class AdminRBAC
             ->get();
         $count = $rules->count();
 
-        if ($count == 1)
-        {
+        if ($count == 1) {
             $rule = $rules[0];
-        }
-        elseif ($count > 1)
-        {
-            $rules = $rules->filter(function ($item, $key) use ($request)
-            {
+        } elseif ($count > 1) {
+            $rules = $rules->filter(function ($item, $key) use ($request) {
                 $req_params_str = http_build_query($request->all());
                 $db_params = explode('&', $item->params);
                 $db_params_count = count($db_params);
                 $true_count = 0;
 
-                foreach ($db_params as $db_param)
-                {
+                foreach ($db_params as $db_param) {
                     //当前请求参数是否包含路由配置参数
-                    if (strpos($req_params_str, $db_param) !== false)
-                    {
+                    if (strpos($req_params_str, $db_param) !== false) {
                         $true_count++;
                     }
                 }
 
                 //路由规则中配置的参数和当前请求匹配成功的参数相等，说明当前请求路由为配置路由
-                if ($db_params_count === $true_count)
-                {
+                if ($db_params_count === $true_count) {
                     return true;
                 }
             });
 
             $rule = $rules->first() ?? new stdClass;
-        }
-        else
-        {
+        } else {
             $rule = new stdClass;
         }
 
@@ -164,13 +143,11 @@ class AdminRBAC
      */
     protected function recordBehavior($request, $response)
     {
-        if (in_array($response->getStatusCode(), [500, 401, 403, 404, 429, 422, 301, 302]))
-        {
+        if (in_array($response->getStatusCode(), [500, 401, 403, 404, 429, 422, 301, 302])) {
             return;
         }
 
-        if (!$request->m_api_behavior_rule instanceof AdminRules)
-        {
+        if (!$request->m_api_behavior_rule instanceof AdminRules) {
             return;
         }
 

@@ -27,6 +27,8 @@ Route::middleware(['auth:admin', 'scope:admin'])->group(function () {
     });
 
     Route::group(['prefix' => 'group'], function () {
+        Route::match(['put', 'patch'], 'status/{id}', [GroupController::class,'status']);//管理组 启用/禁用
+        Route::get('select-menus', [GroupController::class,'selectMenus']);//管理组选择菜单
         Route::get('rules', [GroupController::class,'rules']);//所有权限
         Route::get('setting/{id}', [GroupController::class,'setting']);//获取组所有权限
         Route::match(['put', 'patch'], 'set/{id}', [GroupController::class,'set']);//设置组的权限
