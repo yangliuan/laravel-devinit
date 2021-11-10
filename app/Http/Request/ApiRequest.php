@@ -78,6 +78,4 @@ class ApiRequest extends FormRequest
             return !is_null($value);
         }) + $default;
     }
-
-
 }
