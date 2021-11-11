@@ -10,10 +10,12 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\Helps;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ApiRequest extends FormRequest
 {
+    use Helps;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -53,27 +55,27 @@ class ApiRequest extends FormRequest
         if (!in_array($request_method, ['all','only','except'])) {
             return [];
         }
-
-        return $this->arrayFilterRecursive($this->$request_method($keys), function ($value) {
+        return array_filter($this->$request_method($keys), function ($value) {
             return !is_null($value);
         }) + $default;
     }
 
     /**
-     * 递归使用array_filter
+     * 递归过滤null值，并且合并默认值
      *
-     * @param array $array
-     * @param callable $callback
+     * @param array $default 默认值数组，用于选填的字段
+     * @param string $request_method 获取数据方法 all only except
+     * @param mixed $keys
      * @return array
      */
-    public function arrayFilterRecursive(array $array, callable $callback)
+    public function filterRecursive(array $default = [], $request_method = 'all', $keys = null)
     {
-        foreach ($array as &$value) {
-            if (is_array($value)) {
-                $value = $this->arrayFilterRecursive($value, $callback);
-            }
+        if (!in_array($request_method, ['all','only','except'])) {
+            return [];
         }
 
-        return array_filter($array, $callback);
+        return $this->arrayFilterRecursive($this->$request_method($keys), function ($value) {
+            return !is_null($value);
+        }) + $default;
     }
 }
