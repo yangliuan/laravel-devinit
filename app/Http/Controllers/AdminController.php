@@ -19,7 +19,7 @@ class AdminController extends Controller
             'password' => 'bail|required|string',
         ]);
 
-        $admin = Admin::select('id', 'name', 'account', 'mobile', 'group_id', 'status', 'password')
+        $admin = Admin::select('id', 'status', 'password')
             ->where(function ($query) use ($request) {
                 $query->where('mobile', $request->username)
                     ->orWhere('account', $request->username)
@@ -45,9 +45,8 @@ class AdminController extends Controller
         ]);
         $token_type = 'Bearer';
         $token = $admin->getToken();
-        $menu = $admin->getRules();
 
-        return response()->json(compact('token_type', 'token', 'menu', 'admin'));
+        return response()->json(compact('token_type', 'token'));
     }
 
     public function logout(Request $request)
