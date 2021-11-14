@@ -51,6 +51,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
             $this->publishes([
                 __DIR__ . '/../app/Http/Controllers/AdminController.php' => app_path('Http/Controllers/Admin/AdminController.php'),
                 __DIR__ . '/../app/Http/Controllers/GroupController.php' => app_path('Http/Controllers/Admin/GroupController.php'),
+                __DIR__ . '/../app/Http/Controllers/RulesController.php' => app_path('Http/Controllers/Admin/RulesController.php'),
                 __DIR__ . '/../app/Http/Controllers/PageController.php' => app_path('Http/Controllers/PageController.php'),
             ], 'devinit-controllers');
 
@@ -58,6 +59,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 __DIR__ . '/../app/Http/Request/Api/RegisterOrLoginRequest.php' => app_path('Http/Requests/Api/RegisterOrLoginRequest.php'),
                 __DIR__ . '/../app/Http/Request/ApiRequest.php' => app_path('Http/Requests/ApiRequest.php'),
                 __DIR__ . '/../app/Http/Request/Admin/AdminRequest.php' => app_path('Http/Requests/Admin/AdminRequest.php'),
+                __DIR__ . '/../app/Http/Request/Admin/RulesRequest.php' => app_path('Http/Requests/Admin/RulesRequest.php'),
             ], 'devinit-request');
 
             $this->publishes([
