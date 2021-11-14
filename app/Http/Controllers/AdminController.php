@@ -64,7 +64,7 @@ class AdminController extends Controller
         return response()->json(compact('admin', 'menu'));
     }
 
-    public function index(Request $request)
+    public function index(AdminRequest $request)
     {
         $admins = Admin::select()
             ->with(['group' => function ($query) {
@@ -98,11 +98,7 @@ class AdminController extends Controller
 
     public function store(AdminRequest $request)
     {
-        $admin = Admin::create(
-            array_filter($request->all(), function ($value) {
-                return !is_null($value);
-            })
-        );
+        $admin = Admin::create($request->filter());
 
         return response()->json(['id' => $admin->id]);
     }
@@ -110,14 +106,7 @@ class AdminController extends Controller
     public function update(AdminRequest $request, $id)
     {
         $admin = Admin::findOrFail($id);
-        $admin->update(
-            array_filter(
-                $request->only(['name', 'password', 'mobile', 'group_id', 'status']),
-                function ($value) {
-                    return !is_null($value);
-                }
-            )
-        );
+        $admin->update($request->filter([], 'only', ['name', 'account', 'password', 'mobile', 'group_id', 'status']));
 
         return response()->json();
     }

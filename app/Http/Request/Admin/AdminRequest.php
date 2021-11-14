@@ -10,8 +10,7 @@ class AdminRequest extends ApiRequest
 {
     public function rules()
     {
-        switch ($this->method())
-        {
+        switch ($this->method()) {
             case 'POST':
                 // CREATE
                 {
@@ -39,16 +38,11 @@ class AdminRequest extends ApiRequest
                 {
                     return [
                         'id' => [
-                            function ($attribute, $value, $fail)
-                            {
-                                if ($this->getRestFullRouteId() && $this->getRestFullRouteId() === 1)
-                                {
-                                    if ($this->is('admin/admin/*') && $this->getRestFullRouteId() !== $this->user('admin')->id)
-                                    {
+                            function ($attribute, $value, $fail) {
+                                if ($this->getRestFullRouteId() && $this->getRestFullRouteId() === 1) {
+                                    if ($this->is('admin/admin/*') && $this->getRestFullRouteId() !== $this->user('admin')->id) {
                                         return $fail('普通管理员无法修改系统管理员');
-                                    }
-                                    elseif ($this->is('admin/admin/status/*'))
-                                    {
+                                    } elseif ($this->is('admin/admin/status/*')) {
                                         return $fail('系统管理员无法被禁用');
                                     }
                                 }
@@ -69,12 +63,9 @@ class AdminRequest extends ApiRequest
                         ],
                         'group_id' => [
                             'bail', 'required', 'integer',
-                            function ($attribute, $value, $fail)
-                            {
-                                if ($value > 0)
-                                {
-                                    if (AdminGroups::where('id', $value)->count() === 0)
-                                    {
+                            function ($attribute, $value, $fail) {
+                                if ($value > 0) {
+                                    if (AdminGroups::where('id', $value)->count() === 0) {
                                         return $fail('管理组不存在');
                                     }
                                 }
@@ -94,10 +85,8 @@ class AdminRequest extends ApiRequest
                 {
                     return [
                         'id' => [
-                            function ($attribute, $value, $fail)
-                            {
-                                if ($this->getRestFullRouteId() && $this->getRestFullRouteId() === 1)
-                                {
+                            function ($attribute, $value, $fail) {
+                                if ($this->getRestFullRouteId() && $this->getRestFullRouteId() === 1) {
                                     return $fail('无法删除系统管理员');
                                 }
                             }
