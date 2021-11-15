@@ -33,6 +33,11 @@ class AdminRules extends BaseModel
         return $this->belongsToMany('App\Models\AdminGroups', 'admin_group_rules', 'rule_id', 'group_id');
     }
 
+    public function children()
+    {
+        return $this->hasMany($this, 'pid', 'id');
+    }
+
     public function toTree(array $rules = [], $parentId = 0, $select_field = ['id','pid','name','icon','gui_type','gui_behavior'])
     {
         $branch = [];
