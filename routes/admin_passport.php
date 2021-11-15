@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\RulesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,8 +35,15 @@ Route::middleware(['auth:admin', 'scope:admin'])->group(function () {
         Route::match(['put', 'patch'], 'set/{id}', [GroupController::class,'set']);//设置组的权限
     });
 
+    Route::group(['prefix' => 'rules'], function () {
+        Route::match(['put', 'patch'], 'status/{id}', [RulesController::class,'status']);//权限规则 启用/禁用
+        Route::match(['put', 'patch'], 'log-status/{id}', [RulesController::class,'logStatus']);//权限规则 日志 启用/禁用
+        Route::get('select-menus', [RulesController::class,'selectMenus']);//权限规则 上级菜单
+    });
+
     Route::apiResources([
         'admin' => AdminController::class,//管理员
         'group' => GroupController::class,//管理组
+        'rules' => RulesController::class,//权限规则
     ]);
 });

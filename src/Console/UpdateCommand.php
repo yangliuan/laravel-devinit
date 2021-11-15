@@ -30,6 +30,10 @@ class UpdateCommand extends Command
      */
     public function handle()
     {
+        if (app()->environment() === 'production') {
+            return $this->error('can not run application in production');
+        }
+
         $this->call('vendor:publish', [
             '--tag' => 'devinit-base',
             '--force' => 'force',

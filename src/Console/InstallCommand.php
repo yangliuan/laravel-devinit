@@ -34,6 +34,10 @@ class InstallCommand extends Command
      */
     public function handle()
     {
+        if (app()->environment() === 'production') {
+            return $this->error('can not run application in production');
+        }
+
         //检测初始化脚本是否安装过
         if (Storage::disk('local')->exists('devinit.lock')) {
             return $this->error('devinit installed');

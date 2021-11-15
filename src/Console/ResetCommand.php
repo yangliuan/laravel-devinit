@@ -28,6 +28,10 @@ class ResetCommand extends Command
      */
     public function handle()
     {
+        if (app()->environment() === 'production') {
+            return $this->error('can not run application in production');
+        }
+
         system('php artisan migrate:refresh'); //刷新数据
         system('php artisan passport:keys --force'); //重新生成passort-key文件
         system('php artisan passport:client --personal'); //重新生成passwort 个人客户端秘钥数据
