@@ -42,6 +42,7 @@ class InstallCommand extends Command
         if (Storage::disk('local')->exists('devinit.lock')) {
             return $this->error('devinit installed');
         }
+
         //检测数据库连接是否成功
         DB::statement('SHOW TABLES');
         //发布公共文件
