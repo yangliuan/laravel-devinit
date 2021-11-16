@@ -87,4 +87,15 @@ class Admin extends Authenticatable
 
         return $rules;
     }
+
+    public function databaseVersion()
+    {
+        if (config('database.default') === 'mysql') {
+            list($res) = \DB::select('select version() as version');
+
+            return $res->version;
+        } else {
+            return '';
+        }
+    }
 }

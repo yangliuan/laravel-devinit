@@ -21,7 +21,8 @@ Route::post('login', [AdminController::class,'login']); //登录
 Route::middleware(['auth:admin', 'scope:admin'])->group(function () {
     Route::post('logout', [AdminController::class,'logout']);//登出
     Route::get('syslogs', [AdminController::class,'syslogs']);//系统日志
-    Route::get('info', [AdminController::class,'info']);//登录信息和权限
+    Route::get('info', [AdminController::class,'info']);//管理员登录信息和权限
+    Route::get('sysinfo', [AdminController::class,'sysInfo']);//系统信息
 
     Route::group(['prefix' => 'admin'], function () {
         Route::match(['put', 'patch'], 'status/{id}', [AdminController::class,'status']);//管理员 启用/禁用
