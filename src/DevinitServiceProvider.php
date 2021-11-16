@@ -70,6 +70,7 @@ class DevinitServiceProvider extends \Illuminate\Support\ServiceProvider
                 __DIR__ . '/../app/Traits/DateFormat.php' => app_path('Traits/DateFormat.php'),
                 __DIR__ . '/../app/Traits/Helps.php' => app_path('Traits/Helps.php'),
                 __DIR__ . '/../app/Traits/PasswordHandle.php' => app_path('Traits/PasswordHandle.php'),
+                __DIR__ . '/../app/Traits/SystemInfo.php' => app_path('Traits/SystemInfo.php'),
             ], 'devinit-traits');
 
             $this->publishes([

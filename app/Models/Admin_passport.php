@@ -80,22 +80,11 @@ class Admin extends Authenticatable
     public function getRules()
     {
         if ($this->id === 1) {
-            $rules = (new AdminRules())->adminTree();
+            $rules = (new AdminRules())->toTree();
         } else {
             $rules = AdminGroups::where('id', $this->group_id)->value('cache') ?? [];
         }
 
         return $rules;
-    }
-
-    public function databaseVersion()
-    {
-        if (config('database.default') === 'mysql') {
-            list($res) = \DB::select('select version() as version');
-
-            return $res->version;
-        } else {
-            return '';
-        }
     }
 }
