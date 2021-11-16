@@ -63,7 +63,11 @@ class AdminRules extends BaseModel
 
     public function adminTree($select_field = ['id','pid','name','icon','gui_type','gui_behavior'])
     {
-        $rules = static::all($select_field)->toArray();
+        if (config('adminrbac.develop_model')) {
+            $rules = static::all($select_field)->toArray();
+        } else {
+            $rules = static::where('id', '<>', 17)->where('pid', '<>', 17)->get($select_field)->toArray();
+        }
 
         return $this->toTree($rules);
     }
