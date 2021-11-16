@@ -80,7 +80,7 @@ class Admin extends Authenticatable
     public function getRules()
     {
         if ($this->id === 1) {
-            $rules = (new AdminRules())->toTree();
+            $rules = (new AdminRules())->adminTree();
         } else {
             $rules = AdminGroups::where('id', $this->group_id)->value('cache') ?? [];
         }

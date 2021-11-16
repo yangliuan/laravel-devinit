@@ -41,12 +41,9 @@ class AdminRules extends BaseModel
     public function toTree(array $rules = [], $parentId = 0, $select_field = ['id','pid','name','icon','gui_type','gui_behavior'])
     {
         $branch = [];
-        $admin_id = auth('admin')->user()->id;
 
-        if (empty($rules) && $admin_id > 1) {
+        if (empty($rules)) {
             $rules = static::where('status', 1)->get($select_field)->toArray();
-        } elseif (empty($rules) && $admin_id === 1) {
-            $rules = static::all($select_field)->toArray();
         }
 
         foreach ($rules as $rule) {
@@ -62,5 +59,12 @@ class AdminRules extends BaseModel
         }
 
         return collect($branch)->sortBy('sort')->values()->all();
+    }
+
+    public function adminTree($select_field = ['id','pid','name','icon','gui_type','gui_behavior'])
+    {
+        $rules = static::all($select_field)->toArray();
+
+        return $this->toTree($rules);
     }
 }
