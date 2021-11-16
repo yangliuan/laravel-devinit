@@ -45,13 +45,17 @@ class RulesController extends Controller
     public function update(RulesRequest $request, $id)
     {
         $rules = AdminRules::findOrFail($id);
-        $rules->update(
-            $request->filter(
-                ['icon'=>''],
-                'only',
-                ['pid', 'name', 'icon', 'api_http_method', 'api_behavior', 'params', 'gui_type', 'gui_behavior', 'status', 'is_log', 'sort']
-            )
+        $data = $request->filter(
+            ['icon'=>''],
+            'only',
+            ['pid', 'name', 'icon', 'api_http_method', 'api_behavior', 'params', 'gui_type', 'gui_behavior', 'status', 'is_log', 'sort']
         );
+
+        if ($rules->pid === 0) {
+            unset($data['pid']);
+        }
+
+        $rules->update($data);
 
         return response()->json($rules);
     }
