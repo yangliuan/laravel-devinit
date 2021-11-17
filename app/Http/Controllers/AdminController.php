@@ -61,10 +61,11 @@ class AdminController extends Controller
 
     public function info(Request $request)
     {
-        $admin = $request->user('admin')->makeHidden('email', 'email_verified_at');
+        $admin = $request->user('admin')->makeHidden('email', 'email_verified_at', 'created_at', 'updated_at');
+        $permisson_menu_level = config('adminrbac.permisson_menus_level');
         $menu = $admin->getRules();
 
-        return response()->json(compact('admin', 'menu'));
+        return response()->json(compact('admin', 'menu', 'permisson_menu_level'));
     }
 
     public function index(AdminRequest $request)
