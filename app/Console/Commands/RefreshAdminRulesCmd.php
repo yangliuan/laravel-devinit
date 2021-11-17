@@ -55,22 +55,22 @@ class RefreshAdminRulesCmd extends Command
             [
                 'id' => 1, 'pid' => 0, 'name' => '权限管理',
                 'api_http_method' => 'GET', 'api_behavior' => '', 'params' => '',
-                'gui_type' => 1, 'gui_behavior' => '/permission', 'status' => 1, 'is_log' => 0, 'sort' => 999
+                'gui_type' => 1, 'gui_behavior' => 'Permission', 'status' => 1, 'is_log' => 0, 'sort' => 999
             ],
             [
                 'id' => 2, 'pid' => 1, 'name' => '管理组',
                 'api_http_method' => 'GET', 'api_behavior' => 'api/admin/group', 'params' => '',
-                'gui_type' => 2, 'gui_behavior' => 'admingroup', 'status' => 1, 'is_log' => 0, 'sort' => 1
+                'gui_type' => 2, 'gui_behavior' => 'AdminGroup', 'status' => 1, 'is_log' => 0, 'sort' => 1
             ],
             [
                 'id' => 3, 'pid' => 2, 'name' => '添加管理组',
                 'api_http_method' => 'POST', 'api_behavior' => 'api/admin/group', 'params' => '',
-                'gui_type' => 3, 'gui_behavior' => 'admingroup/create', 'status' => 0, 'is_log' => 1, 'sort' => 1
+                'gui_type' => 3, 'gui_behavior' => 'CreateAdminGroup', 'status' => 0, 'is_log' => 1, 'sort' => 1
             ],
             [
                 'id' => 4, 'pid' => 2, 'name' => '编辑管理组',
                 'api_http_method' => 'GET', 'api_behavior' => 'api/admin/group/', 'params' => '',
-                'gui_type' => 3, 'gui_behavior' => 'admingroup/edit/:id(\\d+)', 'status' => 0, 'is_log' => 0, 'sort' => 2
+                'gui_type' => 3, 'gui_behavior' => 'EditAdminGroup', 'status' => 0, 'is_log' => 0, 'sort' => 2
             ],
             [
                 'id' => 5, 'pid' => 2, 'name' => '更新管理组',
@@ -90,7 +90,7 @@ class RefreshAdminRulesCmd extends Command
             [
                 'id' => 8, 'pid' => 2, 'name' => '权限设置',
                 'api_http_method' => 'GET', 'api_behavior' => 'api/admin/group/setting/', 'params' => '',
-                'gui_type' => 3, 'gui_behavior' => 'admingroup/rules/:id(\\d+)', 'status' => 0, 'is_log' => 1, 'sort' => 6
+                'gui_type' => 3, 'gui_behavior' => 'SetAdminGroupRules', 'status' => 0, 'is_log' => 1, 'sort' => 6
             ],
             [
                 'id' => 9, 'pid' => 2, 'name' => '更新权限',
@@ -100,17 +100,17 @@ class RefreshAdminRulesCmd extends Command
             [
                 'id' => 10, 'pid' => 1, 'name' => '管理员',
                 'api_http_method' => 'GET', 'api_behavior' => 'api/admin/admin', 'params' => '',
-                'gui_type' => 2, 'gui_behavior' => 'admin', 'status' => 1, 'is_log' => 0, 'sort' => 2
+                'gui_type' => 2, 'gui_behavior' => 'Admin', 'status' => 1, 'is_log' => 0, 'sort' => 2
             ],
             [
                 'id' => 11, 'pid' => 10, 'name' => '添加管理员',
                 'api_http_method' => 'POST', 'api_behavior' => 'api/admin/admin', 'params' => '',
-                'gui_type' => 3, 'gui_behavior' => 'admin/create', 'status' => 0, 'is_log' => 1, 'sort' => 1
+                'gui_type' => 3, 'gui_behavior' => 'CreateAdmin', 'status' => 0, 'is_log' => 1, 'sort' => 1
             ],
             [
                 'id' => 12, 'pid' => 10, 'name' => '编辑管理员',
                 'api_http_method' => 'GET', 'api_behavior' => 'api/admin/admin/', 'params' => '',
-                'gui_type' => 3, 'gui_behavior' => 'admin/edit/:id(\\d+)', 'status' => 0, 'is_log' => 0, 'sort' => 2
+                'gui_type' => 3, 'gui_behavior' => 'EditAdmin', 'status' => 0, 'is_log' => 0, 'sort' => 2
             ],
             [
                 'id' => 13, 'pid' => 10, 'name' => '更新管理员',
@@ -130,22 +130,22 @@ class RefreshAdminRulesCmd extends Command
             [
                 'id' => 16, 'pid' => 1, 'name' => '系统日志',
                 'api_http_method' => 'GET', 'api_behavior' => 'api/admin/syslogs', 'params' => '',
-                'gui_type' => 2, 'gui_behavior' => 'syslog', 'status' => 1, 'is_log' => 0, 'sort' => 3
+                'gui_type' => 2, 'gui_behavior' => 'Syslog', 'status' => 1, 'is_log' => 0, 'sort' => 3
             ],
             [
                 'id' => 17, 'pid' => 1, 'name' => '权限规则',
                 'api_http_method' => 'GET', 'api_behavior' => 'api/admin/rules', 'params' => '',
-                'gui_type' => 2, 'gui_behavior' => 'adminrules', 'status' => 0, 'is_log' => 0, 'sort' => 4
+                'gui_type' => 2, 'gui_behavior' => 'AdminRules', 'status' => 0, 'is_log' => 0, 'sort' => 4
             ],
             [
                 'id' => 18, 'pid' => 17, 'name' => '添加权限规则',
                 'api_http_method' => 'POST', 'api_behavior' => 'api/admin/rules', 'params' => '',
-                'gui_type' => 3, 'gui_behavior' => 'adminrules/create', 'status' => 0, 'is_log' => 1, 'sort' => 1
+                'gui_type' => 3, 'gui_behavior' => 'CreateAdminRules', 'status' => 0, 'is_log' => 1, 'sort' => 1
             ],
             [
                 'id' => 19, 'pid' => 17, 'name' => '编辑权限规则',
                 'api_http_method' => 'GET', 'api_behavior' => 'api/admin/rules/', 'params' => '',
-                'gui_type' => 3, 'gui_behavior' => 'adminrules/edit/:id(\\d+)', 'status' => 0, 'is_log' => 0, 'sort' => 2
+                'gui_type' => 3, 'gui_behavior' => 'EditAdminRules', 'status' => 0, 'is_log' => 0, 'sort' => 2
             ],
             [
                 'id' => 20, 'pid' => 17, 'name' => '更新权限规则',
