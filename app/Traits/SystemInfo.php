@@ -25,7 +25,7 @@ trait SystemInfo
                 ['name' => 'Memory limit', 'value' => get_cfg_var("memory_limit")],
                 ['name' => 'Laravel version', 'value' => $laravel = app()::VERSION],
                 ['name' => 'App Env', 'value' => config('app.env')],
-                ['name' => 'App debug', 'value' => config('app.debug')],
+                ['name' => 'App debug', 'value' => config('app.debug') ? 'true' : 'false'],
                 ['name' => 'Broadcasting driver', 'value' => config('broadcasting.default')],
                 ['name' => 'Cache driver', 'value' => config('cache.default')],
                 ['name' => 'Filesystems driver', 'value' => config('filesystems.default')],
